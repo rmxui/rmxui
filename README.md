@@ -1,2 +1,3 @@
 # rmxui
-React Material UI
+
+React Material Expressive UI
