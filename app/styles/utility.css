@@ -1,0 +1,100 @@
+@utility ripple-* {
+  &:focus-visible {
+    :is(& > *),
+    :is(& > [data-slot="indicator"] > *) {
+      &[data-slot="ripple"] {
+        &::before {
+          background-color: --value(--color-*);
+          opacity: 0.12;
+        }
+      }
+    }
+  }
+
+  &:hover {
+    @media (hover: hover) {
+      :is(& > *),
+      :is(& > [data-slot="indicator"] > *) {
+        &[data-slot="ripple"] {
+          &::before {
+            background-color: --value(--color- *);
+            opacity: 0.08;
+          }
+        }
+      }
+    }
+  }
+
+  &:active {
+    :is(& > *),
+    :is(& > [data-slot="indicator"] > *) {
+      &[data-slot="ripple"] {
+        &::after {
+          background-color: --value(--color-*);
+          opacity: 0.12;
+          transition-duration: 105ms;
+        }
+      }
+    }
+  }
+}
+@utility elevation-* {
+  --rm-elevation-level: --value(integer);
+
+  :is(& > *) {
+    &[data-slot="elevation"] {
+      &::before {
+        --eb-level1-y: clamp(0, var(--rm-elevation-level), 1);
+        --eb-level4-y: clamp(0, var(--rm-elevation-level) - 3, 1);
+        --eb-level5-y: calc(2 * clamp(0, var(--rm-elevation-level) - 4, 1));
+        --eb-y: calc(
+          1px * (var(--eb-level1-y) + var(--eb-level4-y) + var(--eb-level5-y))
+        );
+
+        --eb-level1-blur: calc(2 * clamp(0, var(--rm-elevation-level), 1));
+        --eb-level3-blur: clamp(0, var(--rm-elevation-level) - 2, 1);
+        --eb-level5-blur: clamp(0, var(--rm-elevation-level) - 4, 1);
+        --eb-blur: calc(
+          1px *
+            (
+              var(--eb-level1-blur) + var(--eb-level3-blur) +
+                var(--eb-level5-blur)
+            )
+        );
+
+        box-shadow: 0px var(--eb-y) var(--eb-blur) 0px var(--color-shadow);
+        opacity: 0.3;
+      }
+
+      &::after {
+        --ea-level1-y: clamp(0, var(--rm-elevation-level), 1);
+        --ea-level2-y: clamp(0, var(--rm-elevation-level) - 1, 1);
+
+        --ea-y: calc(
+          1px *
+            (var(--ea-level1-y) + var(--ea-level2-y) + var(--ea-level3to5-y))
+        );
+
+        --ea-level1to2-blur: calc(3 * clamp(0, var(--rm-elevation-level), 2));
+        --ea-level3to5-blur: calc(
+          2 * clamp(0, var(--rm-elevation-level) - 2, 3)
+        );
+        --ea-blur: calc(
+          1px * (var(--ea-level1to2-blur) + var(--ea-level3to5-blur))
+        );
+
+        --ea-level1to4-spread: clamp(0, var(--rm-elevation-level), 4);
+        --ea-level5-spread: calc(
+          2 * clamp(0, var(--rm-elevation-level) - 4, 1)
+        );
+        --ea-spread: calc(
+          1px * (var(--ea-level1to4-spread) + var(--ea-level5-spread))
+        );
+
+        box-shadow: 0px var(--ea-y) var(--ea-blur) var(--ea-spread)
+          var(--color-shadow);
+        opacity: 0.15;
+      }
+    }
+  }
+}

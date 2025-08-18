@@ -1,8 +1,9 @@
-import { Outlet } from "react-router";
+import { Link, Outlet } from "react-router";
 import { useTheme } from "~/components/theme-provider";
 
 export default function Layout() {
   const { theme, setTheme } = useTheme();
+
   function toggleTheme() {
     if (theme === "dark") {
       setTheme("light");
@@ -10,16 +11,18 @@ export default function Layout() {
       setTheme("dark");
     }
   }
+
   return (
-    <main className="flex gap-[24px] min-h-screen">
-      <div className="flex-col">
-        <button className="cursor-pointer" onClick={toggleTheme}>
+    <div className="flex min-h-screen">
+      <div className="flex flex-col gap-[12px] p-[24px]">
+        <button className="first-letter:uppercase" onClick={toggleTheme}>
           {theme === "dark" ? "light" : "dark"}
         </button>
+        <Link to="button">Button</Link>
       </div>
-      <div>
+      <main className="p-[24px]">
         <Outlet />
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
