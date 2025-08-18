@@ -12,12 +12,23 @@ function getIcon(icon: State["icon"]) {
 }
 
 type State = {
+  toggle: boolean;
   shape: ButtonProps["shape"];
   icon: "none" | "leading" | "trailing";
 };
 
 export default function ButtonRoute() {
-  const [state, setState] = useState<State>({ shape: "round", icon: "none" });
+  const [state, setState] = useState<State>({
+    toggle: false,
+    shape: "round",
+    icon: "none",
+  });
+
+  function handleChangeToggle(e: React.ChangeEvent) {
+    const t = e.target as HTMLSelectElement;
+    const toggle = t.value === "yes";
+    setState({ ...state, toggle });
+  }
 
   function handleChangeShape(e: React.ChangeEvent) {
     const t = e.target as HTMLSelectElement;
@@ -33,6 +44,13 @@ export default function ButtonRoute() {
     <>
       <div className="flex flex-col gap-[16px]">
         <div className="flex items-center gap-[8px]">
+          <div>
+            <label htmlFor="toggle">Toggle:</label>{" "}
+            <select className="border-2 p-1" onChange={handleChangeToggle}>
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </div>
           <div>
             <label htmlFor="shape">Shape:</label>{" "}
             <select className="border-2 p-1" onChange={handleChangeShape}>
@@ -50,27 +68,31 @@ export default function ButtonRoute() {
           </div>
         </div>
         <div className="flex flex-wrap gap-[16px]">
-          {colors.map((color) => (
-            <div
-              key={color}
-              className="flex flex-col items-center justify-center gap-[12px]"
-            >
-              {sizes.map((size) => (
-                <div key={size}>
-                  <Button
-                    size={size}
-                    shape={state.shape}
-                    color={color}
-                    icon={getIcon(state.icon)}
-                    trailingIcon={state.icon === "trailing"}
-                    className="*:first-letter:uppercase"
-                  >
-                    {color} button
-                  </Button>
+          {colors.map(
+            (color) =>
+              (!state.toggle || color !== "text") && (
+                <div
+                  key={color}
+                  className="flex flex-col items-center justify-center gap-[12px]"
+                >
+                  {sizes.map((size) => (
+                    <div key={size}>
+                      <Button
+                        size={size}
+                        shape={state.shape}
+                        color={color}
+                        icon={getIcon(state.icon)}
+                        trailingIcon={state.icon === "trailing"}
+                        toggle={state.toggle}
+                        className="*:first-letter:uppercase"
+                      >
+                        {color} button
+                      </Button>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          ))}
+              ),
+          )}
         </div>
       </div>
     </>

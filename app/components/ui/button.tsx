@@ -1,3 +1,4 @@
+import { Toggle } from "@base-ui-components/react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Elevation } from "~/components/ui/elevation";
 import { FocusRing } from "~/components/ui/focus-ring";
@@ -74,6 +75,10 @@ export const buttonVariants = cva(
         ],
         text: ["bg-[initial] text-primary", "ripple-primary"],
       },
+      toggle: {
+        true: null,
+        false: null,
+      },
     },
     compoundVariants: [
       { size: "xs", shape: "square", class: "rounded-[12px]" },
@@ -106,6 +111,35 @@ export const buttonVariants = cva(
         color: "outlined",
         class: "*:data-[slot=outline]:border-[3px]",
       },
+      {
+        color: "elevated",
+        toggle: true,
+        class:
+          "data-pressed:bg-primary data-pressed:text-on-primary data-pressed:ripple-on-primary",
+      },
+      {
+        color: "filled",
+        toggle: true,
+        class: [
+          "bg-surface-container text-on-surface-variant ripple-on-surface-variant",
+          "data-pressed:bg-primary data-pressed:text-on-primary data-pressed:ripple-on-primary",
+        ],
+      },
+      {
+        color: "tonal",
+        toggle: true,
+        class:
+          "data-pressed:bg-secondary data-pressed:text-on-secondary data-pressed:ripple-on-secondary",
+      },
+      {
+        color: "outlined",
+        toggle: true,
+        class: [
+          "text-on-surface-variant ripple-on-surface-variant",
+          "data-pressed:bg-inverse-surface data-pressed:text-inverse-on-surface data-pressed:ripple-inverse-on-surface",
+          "data-pressed:*:data-[slot=outline]:border-none",
+        ],
+      },
     ],
     defaultVariants: {
       size: "sm",
@@ -115,10 +149,11 @@ export const buttonVariants = cva(
   },
 );
 
-export type ButtonProps = React.ComponentProps<"button"> &
+export type ButtonProps = React.ComponentProps<typeof Toggle> &
   VariantProps<typeof buttonVariants> & {
     icon?: React.ReactNode;
     trailingIcon?: boolean;
+    toggle?: boolean;
   };
 
 export function Button({
@@ -129,12 +164,15 @@ export function Button({
   color = "filled",
   icon,
   trailingIcon = false,
+  toggle = false,
   ...props
 }: ButtonProps) {
+  const Comp = toggle && color !== "text" ? Toggle : "button";
+
   return (
-    <button
+    <Comp
       data-slot="button"
-      className={cn(buttonVariants({ size, shape, color, className }))}
+      className={cn(buttonVariants({ size, shape, color, toggle, className }))}
       {...props}
     >
       {color === "elevated" && <Elevation></Elevation>}
@@ -144,6 +182,6 @@ export function Button({
       {icon && !trailingIcon && <Icon data-icon="leading">{icon}</Icon>}
       <Label>{children}</Label>
       {icon && trailingIcon && <Icon data-icon="trailing">{icon}</Icon>}
-    </button>
+    </Comp>
   );
 }
