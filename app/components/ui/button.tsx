@@ -58,11 +58,7 @@ export const buttonVariants = cva(
         square: null,
       },
       color: {
-        elevated: [
-          "bg-surface-container-low text-primary",
-          "ripple-primary",
-          "elevation-1",
-        ],
+        elevated: ["bg-surface-container-low text-primary", "ripple-primary"],
         filled: ["bg-primary text-on-primary", "ripple-on-primary"],
         tonal: [
           "bg-secondary-container text-on-secondary-container",
@@ -78,6 +74,13 @@ export const buttonVariants = cva(
       toggle: {
         true: null,
         false: null,
+      },
+      disabled: {
+        false: null,
+        true: [
+          "pointer-events-none",
+          "bg-on-surface/[0.12] text-on-surface/[0.38]",
+        ],
       },
     },
     compoundVariants: [
@@ -140,11 +143,31 @@ export const buttonVariants = cva(
           "data-pressed:*:data-[slot=outline]:border-none",
         ],
       },
+      {
+        color: "elevated",
+        disabled: false,
+        class: "elevation-1",
+      },
+      {
+        color: "elevated",
+        disabled: true,
+        class: "elevation-0",
+      },
+      {
+        disabled: true,
+        toggle: true,
+        class: [
+          "bg-on-surface/[0.12] text-on-surface/[0.38]",
+          "data-pressed:bg-on-surface/[0.12] data-pressed:text-on-surface/[0.38]",
+        ],
+      },
     ],
     defaultVariants: {
       size: "sm",
       shape: "round",
       color: "filled",
+      toggle: false,
+      disabled: false,
     },
   },
 );
@@ -165,6 +188,7 @@ export function Button({
   icon,
   trailingIcon = false,
   toggle = false,
+  disabled = false,
   ...props
 }: ButtonProps) {
   const Comp = toggle && color !== "text" ? Toggle : "button";
@@ -172,7 +196,10 @@ export function Button({
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ size, shape, color, toggle, className }))}
+      disabled={disabled}
+      className={cn(
+        buttonVariants({ size, shape, color, toggle, disabled, className }),
+      )}
       {...props}
     >
       {color === "elevated" && <Elevation></Elevation>}
