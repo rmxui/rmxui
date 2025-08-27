@@ -12,7 +12,7 @@ function getIcon(icon: State["icon"]) {
 }
 
 type State = {
-  shape: ButtonProps["shape"];
+  square: boolean;
   icon: "none" | "leading" | "trailing";
   toggle: boolean;
   disabled: boolean;
@@ -20,7 +20,7 @@ type State = {
 
 export default function ButtonRoute() {
   const [state, setState] = useState<State>({
-    shape: "round",
+    square: false,
     icon: "none",
     toggle: false,
     disabled: false,
@@ -28,7 +28,7 @@ export default function ButtonRoute() {
 
   function handleChangeShape(e: React.ChangeEvent) {
     const t = e.target as HTMLSelectElement;
-    setState({ ...state, shape: t.value as any });
+    setState({ ...state, square: t.value === "square" });
   }
 
   function handleChangeIcon(e: React.ChangeEvent) {
@@ -92,7 +92,7 @@ export default function ButtonRoute() {
                     <div key={size}>
                       <Button
                         size={size}
-                        shape={state.shape}
+                        square={state.square}
                         color={color}
                         icon={getIcon(state.icon)}
                         trailingIcon={state.icon === "trailing"}

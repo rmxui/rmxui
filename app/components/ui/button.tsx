@@ -53,9 +53,9 @@ export const buttonVariants = cva(
           "active:rounded-[16px] data-pressed:rounded-[16px]",
         ],
       },
-      shape: {
-        round: ["rounded-full"],
-        square: null,
+      square: {
+        false: ["rounded-full"],
+        true: null,
       },
       color: {
         elevated: ["bg-surface-container-low text-primary", "ripple-primary"],
@@ -84,11 +84,11 @@ export const buttonVariants = cva(
       },
     },
     compoundVariants: [
-      { size: "xs", shape: "square", class: "rounded-[12px]" },
-      { size: "sm", shape: "square", class: "rounded-[12px]" },
-      { size: "md", shape: "square", class: "rounded-[16px]" },
-      { size: "lg", shape: "square", class: "rounded-[28px]" },
-      { size: "xl", shape: "square", class: "rounded-[28px]" },
+      { size: "xs", square: true, class: "rounded-[12px]" },
+      { size: "sm", square: true, class: "rounded-[12px]" },
+      { size: "md", square: true, class: "rounded-[16px]" },
+      { size: "lg", square: true, class: "rounded-[28px]" },
+      { size: "xl", square: true, class: "rounded-[28px]" },
       {
         size: "xs",
         color: "outlined",
@@ -164,7 +164,7 @@ export const buttonVariants = cva(
     ],
     defaultVariants: {
       size: "sm",
-      shape: "round",
+      square: false,
       color: "filled",
       toggle: false,
       disabled: false,
@@ -183,7 +183,7 @@ export function Button({
   children,
   className,
   size = "sm",
-  shape = "round",
+  square = false,
   color = "filled",
   icon,
   trailingIcon = false,
@@ -198,7 +198,7 @@ export function Button({
       data-slot="button"
       disabled={disabled}
       className={cn(
-        buttonVariants({ size, shape, color, toggle, disabled, className }),
+        buttonVariants({ size, square, color, toggle, disabled, className }),
       )}
       {...props}
     >
