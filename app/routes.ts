@@ -9,5 +9,6 @@ export default [
   layout("routes/layout.tsx", [
     index("routes/home.tsx"),
     route("button", "routes/button.tsx"),
+    route("icon-button", "routes/icon-button.tsx"),
   ]),
 ] satisfies RouteConfig;

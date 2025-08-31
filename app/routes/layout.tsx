@@ -19,6 +19,7 @@ export default function Layout() {
           {theme === "dark" ? "light" : "dark"}
         </button>
         <Link to="button">Button</Link>
+        <Link to="icon-button">Icon button</Link>
       </div>
       <main className="p-[24px]">
         <Outlet />
