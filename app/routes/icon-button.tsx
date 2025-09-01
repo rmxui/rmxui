@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IconButton, type IconButtonProps } from "~/components/ui/icon-button";
-import { EditIcon, EditIconFill, KeyboardArrowDown } from "~/icons";
+import { EditIcon, EditIconFill } from "~/icons";
 
 const sizes = ["xs", "sm", "md", "lg", "xl"] as const;
 const colors = ["filled", "tonal", "outlined", "standard"] as const;

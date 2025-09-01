@@ -1,6 +1,5 @@
 import { Toggle } from "@base-ui-components/react/toggle";
 import { cva, type VariantProps } from "class-variance-authority";
-import { Elevation } from "~/components/ui/elevation";
 import { FocusRing } from "~/components/ui/focus-ring";
 import { Icon } from "~/components/ui/icon";
 import { Label } from "~/components/ui/label";
@@ -232,8 +231,8 @@ export function IconButton({
       {color === "outlined" && <Outline></Outline>}
       <FocusRing></FocusRing>
       <Ripple></Ripple>
-      <Label className="sr-only">{label}</Label>
       {getIcon()}
+      <Label className="sr-only">{label}</Label>
     </Comp>
   );
 }

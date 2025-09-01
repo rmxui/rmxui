@@ -10,5 +10,6 @@ export default [
     index("routes/home.tsx"),
     route("button", "routes/button.tsx"),
     route("icon-button", "routes/icon-button.tsx"),
+    route("fab", "routes/fab.tsx"),
   ]),
 ] satisfies RouteConfig;

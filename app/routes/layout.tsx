@@ -20,6 +20,7 @@ export default function Layout() {
         </button>
         <Link to="button">Button</Link>
         <Link to="icon-button">Icon button</Link>
+        <Link to="fab">FAB</Link>
       </div>
       <main className="p-[24px]">
         <Outlet />

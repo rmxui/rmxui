@@ -41,6 +41,18 @@
 @utility elevation-* {
   --rm-elevation-level: --value(integer);
 
+  &:focus-visible {
+    --rm-elevation-level: calc(--modifier(integer) - 1);
+  }
+
+  &:hover {
+    --rm-elevation-level: --modifier(integer);
+  }
+
+  &:active {
+    --rm-elevation-level: calc(--modifier(integer) - 1);
+  }
+
   :is(& > *) {
     &[data-slot="elevation"] {
       &::before {
