@@ -20,7 +20,7 @@ export function Checkbox({
         "size-[40px] rounded-full",
         "outline-none border-none",
         "focus-visible:*:data-[slot=focus-ring]:outline-solid",
-        "ripple-on-surface data-checked:primary",
+        "ripple-on-surface not-data-unchecked:ripple-primary",
         className,
       )}
       {...props}
