@@ -22,6 +22,7 @@ export default function Layout() {
         <Link to="icon-button">Icon button</Link>
         <Link to="fab">FAB</Link>
         <Link to="checkbox">Checkbox</Link>
+        <Link to="radio">Radio</Link>
       </div>
       <main className="p-[24px]">
         <Outlet />

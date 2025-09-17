@@ -12,5 +12,6 @@ export default [
     route("icon-button", "routes/icon-button.tsx"),
     route("fab", "routes/fab.tsx"),
     route("checkbox", "routes/checkbox.tsx"),
+    route("radio", "routes/radio.tsx"),
   ]),
 ] satisfies RouteConfig;
