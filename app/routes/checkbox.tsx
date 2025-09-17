@@ -1,7 +1,11 @@
-import { Checkbox } from "~/components/ui/checkbox";
+import { useState } from "react";
+import { Checkbox, CheckboxGroup } from "~/components/ui/checkbox";
 import { Field, FieldLabel } from "~/components/ui/field";
 
+const apples = ["fuji", "gala", "granny"];
+
 export default function ButtonRoute() {
+  const [value, setValue] = useState<string[]>([]);
   return (
     <>
       <div className="flex flex-col gap-[16px]">
@@ -74,6 +78,37 @@ export default function ButtonRoute() {
             </FieldLabel>
           </Field>
         </div>
+      </div>
+      <div className="mt-[16px]">Checkbox group</div>
+      <div className="flex flex-col gap-[16px]">
+        <CheckboxGroup
+          aria-labelledby="apples-caption"
+          value={value}
+          onValueChange={setValue}
+          allValues={apples}
+          className="flex flex-col"
+        >
+          <label id="apples-caption" className="flex items-center">
+            <Checkbox
+              name="apples"
+              parent
+              indeterminate={value.length > 0 && value.length < 3}
+            ></Checkbox>
+            Apples
+          </label>
+          <label className="flex items-center">
+            <Checkbox value="fuji"></Checkbox>
+            Fuji
+          </label>
+          <label className="flex items-center">
+            <Checkbox value="gala"></Checkbox>
+            Gala
+          </label>
+          <label className="flex items-center">
+            <Checkbox value="granny"></Checkbox>
+            Granny Smith
+          </label>
+        </CheckboxGroup>
       </div>
     </>
   );

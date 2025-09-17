@@ -1,4 +1,5 @@
 import { Checkbox as CheckboxBase } from "@base-ui-components/react/checkbox";
+import { CheckboxGroup as CheckboxGroupBase } from "@base-ui-components/react/checkbox-group";
 import { FocusRing } from "~/components/ui/focus-ring";
 import { Outline } from "~/components/ui/outline";
 import { Ripple } from "~/components/ui/ripple";
@@ -88,5 +89,16 @@ function IndeterminateIcon(props: React.ComponentProps<"svg">) {
     >
       <path d="M200-440v-80h560v80H200Z" />
     </svg>
+  );
+}
+
+export function CheckboxGroup(
+  props: React.ComponentProps<typeof CheckboxGroupBase>,
+) {
+  return (
+    <CheckboxGroupBase
+      data-slot="checkbox-group"
+      {...props}
+    ></CheckboxGroupBase>
   );
 }
