@@ -25,9 +25,9 @@ export function Checkbox({
         "size-[40px] rounded-full",
         "outline-none border-none",
         "focus-visible:*:data-[slot=focus-ring]:outline-solid",
-        disabled
-          ? "pointer-events-none"
-          : "ripple-on-surface not-data-unchecked:ripple-primary",
+        "not-data-disabled:ripple-on-surface not-data-disabled:not-data-unchecked:ripple-primary",
+        "not-data-disabled:has-data-invalid:ripple-error",
+        "data-disabled:pointer-events-none",
         className,
       )}
       {...props}
@@ -41,15 +41,16 @@ export function Checkbox({
           "relative inline-flex items-center justify-center",
           "size-[18px] rounded-[2px]",
           "*:data-[slot=outline]:border-solid",
-          "*:data-[slot=outline]:border-outline-variant *:data-[slot=outline]:border-[2px]",
+          "*:data-[slot=outline]:border-on-surface-variant *:data-[slot=outline]:border-[2px]",
           "not-data-unchecked:*:data-[slot=outline]:border-0",
           "data-unchecked:data-invalid:*:data-[slot=outline]:border-error",
           "not-data-unchecked:bg-primary not-data-unchecked:text-on-primary",
           "not-data-unchecked:data-invalid:bg-error not-data-unchecked:data-invalid:text-on-error",
           "data-unchecked:*:[svg]:hidden",
-          disabled
-            ? "not-data-unchecked:bg-on-surface/[0.38] not-data-unchecked:text-surface"
-            : "data-disabled:pointer-events-none",
+          "data-disabled:data-unchecked:*:data-[slot=outline]:border-on-surface/[0.38]",
+          "data-disabled:not-data-unchecked:bg-on-surface/[0.38]",
+          "data-disabled:not-data-unchecked:text-surface",
+          "data-disabled:pointer-events-none",
         )}
       >
         <Outline />
