@@ -9,18 +9,24 @@ export type CheckboxProps = React.ComponentProps<typeof CheckboxBase.Root>;
 export function Checkbox({
   children,
   className,
+  disabled,
   indeterminate,
+  value,
   ...props
 }: CheckboxProps) {
   return (
     <CheckboxBase.Root
+      disabled={disabled}
       indeterminate={indeterminate}
+      value={value}
       className={cn(
-        "relative inline-flex items-center justify-center ",
+        "relative inline-flex items-center justify-center",
         "size-[40px] rounded-full",
         "outline-none border-none",
         "focus-visible:*:data-[slot=focus-ring]:outline-solid",
-        "ripple-on-surface not-data-unchecked:ripple-primary",
+        disabled
+          ? "pointer-events-none"
+          : "ripple-on-surface not-data-unchecked:ripple-primary",
         className,
       )}
       {...props}
@@ -38,6 +44,9 @@ export function Checkbox({
           "not-data-unchecked:*:data-[slot=outline]:border-0",
           "not-data-unchecked:bg-primary not-data-unchecked:text-on-primary",
           "data-unchecked:*:[svg]:hidden",
+          disabled
+            ? "not-data-unchecked:bg-on-surface/[0.38] not-data-unchecked:text-surface"
+            : "data-disabled:pointer-events-none",
         )}
       >
         <Outline />
@@ -47,6 +56,7 @@ export function Checkbox({
           <CheckIcon className="size-[18px]" />
         )}
       </CheckboxBase.Indicator>
+      <span className="hidden">{value}</span>
     </CheckboxBase.Root>
   );
 }
