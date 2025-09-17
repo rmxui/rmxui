@@ -1,4 +1,5 @@
 import { Checkbox } from "~/components/ui/checkbox";
+import { Field, FieldLabel } from "~/components/ui/field";
 
 export default function ButtonRoute() {
   return (
@@ -48,6 +49,30 @@ export default function ButtonRoute() {
             <Checkbox value="c9" disabled indeterminate></Checkbox>
             Indeterminate disabled
           </label>
+        </div>
+        <div className="flex flex-wrap gap-[16px]">
+          <Field invalid>
+            <FieldLabel className="flex items-center">
+              <Checkbox value="c10"></Checkbox>
+              Unchecked error
+            </FieldLabel>
+          </Field>
+        </div>
+        <div className="flex flex-wrap gap-[16px]">
+          <Field invalid>
+            <FieldLabel className="flex items-center">
+              <Checkbox value="c11" checked></Checkbox>
+              Checked error
+            </FieldLabel>
+          </Field>
+        </div>
+        <div className="flex flex-wrap gap-[16px]">
+          <Field invalid>
+            <FieldLabel className="flex items-center">
+              <Checkbox value="c12" indeterminate></Checkbox>
+              Indeterminate error
+            </FieldLabel>
+          </Field>
         </div>
       </div>
     </>

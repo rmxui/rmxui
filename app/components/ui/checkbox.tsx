@@ -42,7 +42,9 @@ export function Checkbox({
           "*:data-[slot=outline]:border-solid",
           "*:data-[slot=outline]:border-outline-variant *:data-[slot=outline]:border-[2px]",
           "not-data-unchecked:*:data-[slot=outline]:border-0",
+          "data-unchecked:data-invalid:*:data-[slot=outline]:border-error",
           "not-data-unchecked:bg-primary not-data-unchecked:text-on-primary",
+          "not-data-unchecked:data-invalid:bg-error not-data-unchecked:data-invalid:text-on-error",
           "data-unchecked:*:[svg]:hidden",
           disabled
             ? "not-data-unchecked:bg-on-surface/[0.38] not-data-unchecked:text-surface"
