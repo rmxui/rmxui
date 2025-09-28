@@ -13,5 +13,6 @@ export default [
     route("fab", "routes/fab.tsx"),
     route("checkbox", "routes/checkbox.tsx"),
     route("radio", "routes/radio.tsx"),
+    route("nav-rail", "routes/nav-rail.tsx"),
   ]),
 ] satisfies RouteConfig;
