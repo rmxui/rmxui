@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router";
+import { IconButton } from "~/components/ui/icon-button";
 import {
   MenuIcon,
   NavRail,
@@ -24,9 +25,15 @@ export default function NavRailDemo() {
       <div className="flex gap-[16px]">
         <div>
           <NavRail modal>
-            <NavRailTrigger>
-              <MenuIcon />
-            </NavRailTrigger>
+            <NavRailTrigger
+              render={
+                <IconButton
+                  icon={<MenuIcon />}
+                  label="menu-icon"
+                  color="standard"
+                ></IconButton>
+              }
+            ></NavRailTrigger>
             <NavRailPanel>
               <NavRailMenu></NavRailMenu>
               <NavRailFab icon={<EditIcon />} label="Edit"></NavRailFab>

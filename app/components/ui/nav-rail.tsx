@@ -2,19 +2,13 @@ import { Collapsible } from "@base-ui-components/react/collapsible";
 import { Dialog } from "@base-ui-components/react/dialog";
 import { mergeProps } from "@base-ui-components/react/merge-props";
 import { useRender } from "@base-ui-components/react/use-render";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { cn } from "~/lib/utils";
+import { createContext, useCallback, useContext, useState } from "react";
 import { Fab, type FabProps } from "~/components/ui/fab";
 import { Icon } from "~/components/ui/icon";
 import { IconButton } from "~/components/ui/icon-button";
 import { Label } from "~/components/ui/label";
 import { Ripple } from "~/components/ui/ripple";
+import { cn } from "~/lib/utils";
 
 export type NavRailContextValue = {
   modal?: boolean;
@@ -90,26 +84,39 @@ export function NavRailPanel({ className, ...props }: NavRailPanelProps) {
   if (modal) {
     const dialogProps = props as React.ComponentProps<typeof Dialog.Popup>;
     return (
-      <Dialog.Portal keepMounted>
+      <Dialog.Portal>
         <Dialog.Backdrop
-          data-slot="nav-rail-scrim"
-          className={cn(
-            "fixed top-0 left-0 w-full min-h-screen bg-on-surface-variant",
-            "transition-[opacity] ease-x-effects-slow duration-x-effects-slow",
-            open ? "opacity-40" : "opacity-0",
+          render={(props, state) => (
+            <div
+              {...props}
+              data-slot="nav-rail-scrim"
+              className={cn(
+                "fixed top-0 left-0 min-w-screen min-h-screen bg-on-surface-variant",
+                state.open
+                  ? "animate-in fade-in ease-effects-slow duration-(--effects-slow) opacity-40"
+                  : "animate-out fade-out ease-effects-slow duration-(--effects-slow) opacity-0",
+                props.className,
+              )}
+            ></div>
           )}
         ></Dialog.Backdrop>
         <Dialog.Popup
-          data-slot="nav-rail-panel"
-          className={cn(
-            "inline-flex flex-col rounded-e-[16px] pt-[44px] min-h-screen",
-            "fixed top-0 left-0 bg-surface-container",
-            "transition-[min-width] ease-x-spatial duration-x-spatial",
-            open ? "min-w-[220px] max-w-[360px]" : "min-w-0 w-0",
-          )}
           render={(props, state) => {
-            useEffect(() => setOpen?.(state.open), [state.open]);
-            return <div {...props}></div>;
+            return (
+              <div
+                {...props}
+                data-slot="nav-rail-panel"
+                className={cn(
+                  "inline-flex flex-col rounded-e-[16px] pt-[44px] min-h-screen",
+                  "fixed top-0 left-0 bg-surface-container",
+                  "min-w-[220px] max-w-[360px]",
+                  state.open
+                    ? "animate-in slide-in-from-left ease-spatial duration-(--spatial)"
+                    : "animate-out slide-out-to-left ease-spatial duration-(--spatial)",
+                  props.className,
+                )}
+              ></div>
+            );
           }}
           {...dialogProps}
         ></Dialog.Popup>
@@ -127,7 +134,7 @@ export function NavRailPanel({ className, ...props }: NavRailPanelProps) {
       className={cn(
         "inline-flex flex-col pt-[44px] min-h-[calc(100vh-44px)]",
         "bg-surface",
-        "transition-[min-width] ease-x-spatial duration-x-spatial",
+        "transition-[min-width] ease-spatial duration-(--spatial)",
         open ? "min-w-[220px] max-w-[360px]" : "min-w-[96px] max-w-[96px]",
         className,
       )}
@@ -137,22 +144,19 @@ export function NavRailPanel({ className, ...props }: NavRailPanelProps) {
   );
 }
 
-export function NavRailMenu({
-  className,
-  ...componentProps
-}: NavRailTriggerProps) {
+export function NavRailMenu({ ...componentProps }: NavRailTriggerProps) {
   const { modal } = useContext(NavRailContext);
 
   return (
     <div>
       <NavRailTrigger
-        className={cn("ms-[28px]", className)}
         render={(props, state) => (
           <IconButton
             {...props}
             color="standard"
             icon={modal || state.open ? <MenuOpenIcon /> : <MenuIcon />}
             label={modal || state.open ? "menu-open" : "menu"}
+            className={cn("ms-[28px]", props.className)}
           ></IconButton>
         )}
         {...componentProps}
@@ -165,13 +169,7 @@ export function NavRailFab({ className, ...props }: FabProps) {
   const { modal, open } = useContext(NavRailContext);
 
   return (
-    <div
-      className={cn(
-        modal && "transition-[opacity] ease-x-effects duration-x-effects",
-        modal && !open && "opacity-0",
-        modal && open && "opacity-100",
-      )}
-    >
+    <div>
       <Fab
         className={cn("mt-[16px] ms-[20px] elevation-0!", className)}
         extended={modal || open}
@@ -191,11 +189,8 @@ export function NavRailList({
     <ul
       data-slot="nav-rail-list"
       className={cn(
-        "relative inline-flex flex-col items-start pt-[40px] px-[20px]",
+        "relative inline-flex flex-col items-start pt-[40px] w-full",
         modal || open ? "" : "gap-[6px]",
-        modal && "transition-[opacity] ease-x-effects duration-x-effects",
-        modal && !open && "opacity-0",
-        modal && open && "opacity-100",
         className,
       )}
       {...props}
@@ -210,7 +205,7 @@ export function NavRailItem({
   return (
     <li
       data-slot="nav-rail-item"
-      className={cn("relative flex", className)}
+      className={cn("relative inline-flex items-start w-full", className)}
       {...props}
     ></li>
   );
@@ -234,8 +229,8 @@ export function NavRailLink({
     props: {
       ...props,
       className: cn(
-        "relative flex flex-col w-full",
-        "outline-none border-none",
+        "relative inline-flex flex-col items-start w-full",
+        "outline-none border-none px-[20px]",
         "[.active]:*:data-[slot=indicator]:bg-secondary-container",
         "[.active]:*:data-[slot=indicator]:*:data-[slot=label]:text-secondary",
         "[.active]:*:data-[slot=label]:text-secondary",
@@ -243,7 +238,7 @@ export function NavRailLink({
         "[.active]:*:data-[slot=indicator]:*:data-[slot=icon]:text-on-secondary-container",
         "*:data-[slot=indicator]:*:data-[slot=icon]:text-on-surface-variant",
         "ripple-on-secondary-container",
-        modal || open ? "items-start" : "items-center gap-[4px] pb-[4px]",
+        modal || open ? "" : "gap-[4px] pb-[4px]",
         props.className,
       ),
       children: (
@@ -261,7 +256,7 @@ export function NavRailLink({
             {(modal || open) && (
               <Label
                 className={cn(
-                  "flex items-center",
+                  "inline-flex items-center",
                   "font-[500] text-[14px]/[20px] tracking-[0.1px]",
                 )}
               >
@@ -270,7 +265,7 @@ export function NavRailLink({
             )}
           </span>
           {!modal && !open && (
-            <Label className="flex items-center font-[500] text-[12px]/[16px] tracking-[0.5px]">
+            <Label className="inline-flex justify-center w-[56px] font-[500] text-[12px]/[16px] tracking-[0.5px]">
               {props.children}
             </Label>
           )}
