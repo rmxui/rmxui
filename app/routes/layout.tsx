@@ -24,6 +24,7 @@ export default function Layout() {
         <Link to="checkbox">Checkbox</Link>
         <Link to="radio">Radio</Link>
         <Link to="nav-rail">Nav rail</Link>
+        <Link to="dialog">Dialog</Link>
       </div>
       <main className="p-[24px]">
         <Outlet />
