@@ -25,6 +25,7 @@ export default function Layout() {
         <Link to="radio">Radio</Link>
         <Link to="nav-rail">Nav rail</Link>
         <Link to="dialog">Dialog</Link>
+        <Link to="snackbar">Snackbar</Link>
       </div>
       <main className="p-[24px]">
         <Outlet />
