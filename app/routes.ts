@@ -16,5 +16,6 @@ export default [
     route("nav-rail", "routes/nav-rail.tsx"),
     route("dialog", "routes/dialog.tsx"),
     route("snackbar", "routes/snackbar.tsx"),
+    route("tooltip", "routes/tooltip.tsx"),
   ]),
 ] satisfies RouteConfig;
