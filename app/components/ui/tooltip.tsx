@@ -19,12 +19,14 @@ export function useTooltipContext() {
   return useContext(TooltipContext);
 }
 
-export type TooltipProps = (Popover.Root.Props | TooltipBase.Root.Props) &
+export type TooltipProps = React.ComponentProps<
+  typeof Popover.Root | typeof TooltipBase.Root
+> &
   TooltipContextProps;
 
 export function Tooltip({ rich = false, ...props }: TooltipProps) {
   if (rich) {
-    const rootProps = props as Popover.Root.Props;
+    const rootProps = props as React.ComponentProps<typeof Popover.Root>;
     return (
       <TooltipContext value={{ rich }}>
         <Popover.Root {...rootProps}></Popover.Root>
@@ -32,13 +34,13 @@ export function Tooltip({ rich = false, ...props }: TooltipProps) {
     );
   }
 
-  const rootProps = props as TooltipBase.Root.Props;
+  const rootProps = props as React.ComponentProps<typeof TooltipBase.Root>;
   return <TooltipBase.Root {...rootProps}></TooltipBase.Root>;
 }
 
-export type TooltipTriggerProps =
-  | Popover.Trigger.Props
-  | TooltipBase.Trigger.Props;
+export type TooltipTriggerProps = React.ComponentProps<
+  typeof Popover.Trigger | typeof TooltipBase.Trigger
+>;
 
 export function TooltipTrigger({ ...props }: TooltipTriggerProps) {
   const { rich } = useTooltipContext();
@@ -46,18 +48,19 @@ export function TooltipTrigger({ ...props }: TooltipTriggerProps) {
     return <Popover.Trigger {...props}></Popover.Trigger>;
   }
 
-  const triggerProps = props as TooltipBase.Trigger.Props;
+  const triggerProps = props as React.ComponentProps<
+    typeof TooltipBase.Trigger
+  >;
   return <TooltipBase.Trigger {...triggerProps}></TooltipBase.Trigger>;
 }
 
-export type TooltipPositionerProps =
-  | Popover.Positioner.Props
-  | TooltipBase.Positioner.Props;
+export type TooltipPositionerProps = React.ComponentProps<
+  typeof Popover.Positioner | typeof TooltipBase.Positioner
+>;
 
-export type TooltipContentProps = (
-  | Popover.Popup.Props
-  | TooltipBase.Popup.Props
-) & {
+export type TooltipContentProps = React.ComponentProps<
+  typeof Popover.Popup | typeof TooltipBase.Popup
+> & {
   positioner?: TooltipPositionerProps;
   title?: string;
   description: string;
@@ -77,8 +80,8 @@ export function TooltipContent({
       side: "bottom",
       sideOffset: 8,
       ...positioner,
-    } as Popover.Positioner.Props;
-    const popupProps = props as Popover.Popup.Props;
+    } as React.ComponentProps<typeof Popover.Positioner>;
+    const popupProps = props as React.ComponentProps<typeof Popover.Popup>;
 
     return (
       <Popover.Portal>
@@ -117,8 +120,8 @@ export function TooltipContent({
     side: "top",
     sideOffset: 4,
     ...positioner,
-  } as TooltipBase.Positioner.Props;
-  const popupProps = props as TooltipBase.Popup.Props;
+  } as React.ComponentProps<typeof TooltipBase.Positioner>;
+  const popupProps = props as React.ComponentProps<typeof TooltipBase.Popup>;
 
   return (
     <TooltipBase.Portal>
@@ -148,7 +151,7 @@ export function TooltipContent({
   );
 }
 
-export type TooltipTitleProps = Popover.Title.Props;
+export type TooltipTitleProps = React.ComponentProps<typeof Popover.Title>;
 
 export function TooltipTitle({ className, ...props }: TooltipTitleProps) {
   const { rich } = useTooltipContext();
@@ -170,9 +173,9 @@ export function TooltipTitle({ className, ...props }: TooltipTitleProps) {
   );
 }
 
-export type TooltipDescriptionProps =
-  | Popover.Description.Props
-  | React.ComponentProps<"p">;
+export type TooltipDescriptionProps = React.ComponentProps<
+  typeof Popover.Description | "p"
+>;
 
 export function TooltipDescription({
   className,
@@ -224,7 +227,7 @@ export function TooltipActions({ className, ...props }: TooltipActionsProps) {
   );
 }
 
-export type TooltipActionProps = Popover.Close.Props;
+export type TooltipActionProps = React.ComponentProps<typeof Popover.Close>;
 
 export function TooltipAction(props: TooltipActionProps) {
   const { rich } = useTooltipContext();
