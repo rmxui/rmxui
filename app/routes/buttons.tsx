@@ -1,23 +1,48 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button, type ButtonProps } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
+import { cn } from "~/lib/utils";
 
 const variants: ButtonProps["variant"][] = [
   "elevated",
   "filled",
+  "default",
   "tonal",
+  "secondary",
   "outlined",
+  "outline",
   "standard",
+  "ghost",
   "destructive",
 ];
-const sizes: ButtonProps["size"][] = ["xs", "sm", "md", "lg", "xl"];
 const disabledStates: boolean[] = [false, true];
 
 export default function Buttons() {
+  const [type, setType] = useState("default");
   const [shape, setShape] = useState<ButtonProps["shape"]>("round");
+
+  const sizes: ButtonProps["size"][] = useMemo(() => {
+    if (type === "icon") {
+      return ["icon-xs", "icon-sm", "icon", "icon-md", "icon-lg", "icon-xl"];
+    }
+    return ["xs", "sm", "md", "lg", "xl"];
+  }, [type]);
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap gap-4">
+        <div className="flex gap-1">
+          <label htmlFor="type">Type:</label>
+          <select
+            id="type"
+            className="border outline-none"
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+          >
+            <option value="default">Default</option>
+            <option value="icon">Icon</option>
+          </select>
+        </div>
         <div className="flex gap-1">
           <label htmlFor="shape">Shape:</label>
           <select
@@ -47,7 +72,14 @@ export default function Buttons() {
                   className="w-fit"
                 >
                   <PencilIcon />
-                  <Text className="first-letter:uppercase">{variant}</Text>
+                  <Text
+                    className={cn(
+                      "first-letter:uppercase",
+                      type === "icon" && "sr-only"
+                    )}
+                  >
+                    {variant}
+                  </Text>
                 </Button>
               ))
             )}
