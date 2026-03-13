@@ -11,5 +11,6 @@ export default [
     route("button", "routes/button.tsx"),
     route("button-group", "routes/button-group.tsx"),
     route("toggle", "routes/toggle.tsx"),
+    route("toggle-group", "routes/toggle-group.tsx"),
   ]),
 ] satisfies RouteConfig;

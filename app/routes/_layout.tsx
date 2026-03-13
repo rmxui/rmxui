@@ -18,6 +18,13 @@ export default function Layout() {
         <Button size="xs" nativeButton={false} render={<NavLink to="toggle" />}>
           Toggle
         </Button>
+        <Button
+          size="xs"
+          nativeButton={false}
+          render={<NavLink to="toggle-group" />}
+        >
+          Toggle Group
+        </Button>
       </div>
       <main className="p-4">
         <Outlet />
