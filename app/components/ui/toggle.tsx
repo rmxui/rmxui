@@ -152,7 +152,7 @@ function Toggle({
     <TogglePrimitive
       data-slot="toggle"
       nativeButton={nativeButton}
-      className={cn(toggle({ variant, size, shape, className }))}
+      className={cn(toggle({ variant, size, shape }), className)}
       render={
         <Button
           variant={variant}

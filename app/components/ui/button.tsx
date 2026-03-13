@@ -187,15 +187,13 @@ function Button({
       style={style}
       className={cn(
         button({ variant, size, shape, width }),
-        buttonGroup?.variant === "split"
-          ? []
-          : [
-              "active:w-[calc(var(--button-width)+(var(--button-width)*0.15))]",
-              "active:[&+[data-slot=button]]:w-[calc(var(--button-width)-(var(--button-width)*0.075))]",
-              "has-[+[data-slot=button]:active]:w-[calc(var(--button-width)-(var(--button-width)*0.075))]",
-              "active:first:[&+[data-slot=button]]:w-[calc(var(--button-width)-(var(--button-width)*0.15))]",
-              "has-[+[data-slot=button]:active:last-child]:w-[calc(var(--button-width)-(var(--button-width)*0.15))]",
-            ],
+        buttonGroup?.variant === "standard" && [
+          "active:w-[calc(var(--button-width)+(var(--button-width)*0.15))]",
+          "active:[&+[data-slot=button]]:w-[calc(var(--button-width)-(var(--button-width)*0.075))]",
+          "has-[+[data-slot=button]:active]:w-[calc(var(--button-width)-(var(--button-width)*0.075))]",
+          "active:first:[&+[data-slot=button]]:w-[calc(var(--button-width)-(var(--button-width)*0.15))]",
+          "has-[+[data-slot=button]:last-child:active]:w-[calc(var(--button-width)-(var(--button-width)*0.15))]",
+        ],
         className
       )}
       {...props}
