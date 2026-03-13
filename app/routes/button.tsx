@@ -3,7 +3,7 @@ import { Button, type ButtonProps } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 
-const variants: ButtonProps["variant"][] = [
+const variants = [
   "elevated",
   "filled",
   "default",
@@ -14,12 +14,12 @@ const variants: ButtonProps["variant"][] = [
   "standard",
   "ghost",
   "destructive",
-];
-const disabledStates: boolean[] = [false, true];
+] as const;
+const disabledStates = [false, true];
 
-export default function Buttons() {
-  const [type, setType] = useState("default");
-  const [shape, setShape] = useState<ButtonProps["shape"]>("round");
+export default function ButtonRoute() {
+  const [type, setType] = useState<any>("default");
+  const [shape, setShape] = useState<any>("round");
 
   const sizes: ButtonProps["size"][] = useMemo(() => {
     if (type === "icon") {
@@ -48,10 +48,8 @@ export default function Buttons() {
           <select
             id="shape"
             className="border outline-none"
-            value={(shape as ButtonProps["shape"]) ?? "round"}
-            onChange={(e) =>
-              setShape((e.target.value as ButtonProps["shape"]) ?? "round")
-            }
+            value={shape}
+            onChange={(e) => setShape(e.target.value)}
           >
             <option value="round">Round</option>
             <option value="square">Square</option>

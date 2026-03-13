@@ -8,6 +8,7 @@ import {
 export default [
   layout("routes/_layout.tsx", [
     index("routes/_index.tsx"),
-    route("buttons", "routes/buttons.tsx"),
+    route("button", "routes/button.tsx"),
+    route("button-group", "routes/button-group.tsx"),
   ]),
 ] satisfies RouteConfig;

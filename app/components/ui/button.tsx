@@ -1,24 +1,16 @@
 import { Button as ButtonPrimitive } from "@base-ui/react/button";
 import { cva, type VariantProps } from "class-variance-authority";
-import { useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Elevation } from "~/components/ui/elevation";
 import { FocusRing } from "~/components/ui/focus-ring";
 import { Outline } from "~/components/ui/outline";
 import { Ripple } from "~/components/ui/ripple";
-import { cn } from "~/lib/utils";
-
-const CSS = {
-  FILLED: "ripple-on-primary bg-primary text-on-primary",
-  TONAL:
-    "ripple-on-secondary-container bg-secondary-container text-on-secondary-container",
-  OUTLINED:
-    "ripple-on-surface-variant bg-[initial] text-on-surface-variant *:data-[slot=outline]:border-solid",
-  STANDARD: "ripple-primary bg-[initial] text-primary",
-};
+import { cn, getCssDimensions } from "~/lib/utils";
+import { useButtonGroup } from "./button-group";
 
 const button = cva(
   [
-    "group/button relative inline-flex items-center justify-center outline-none",
+    "group/button peer/button relative inline-flex items-center justify-center outline-none",
     "focus-visible:*:data-[slot=focus-ring]:outline-solid *:[svg]:pointer-events-none *:[svg]:shrink-0",
     "data-disabled:pointer-events-none data-disabled:bg-on-surface/10 data-disabled:text-on-surface/38",
   ],
@@ -26,20 +18,24 @@ const button = cva(
     variants: {
       variant: {
         // original
-        default: CSS.FILLED,
-        secondary: CSS.TONAL,
-        outline: CSS.OUTLINED,
-        ghost: CSS.STANDARD,
+        default: "ripple-on-primary bg-primary text-on-primary",
+        secondary:
+          "ripple-on-secondary-container bg-secondary-container text-on-secondary-container",
+        outline:
+          "ripple-on-surface-variant bg-[initial] text-on-surface-variant *:data-[slot=outline]:border-solid",
+        ghost: "ripple-primary bg-[initial] text-primary",
         destructive:
           "ripple-on-error-container bg-error-container text-on-error-container",
         link: "text-primary underline-offset-4 hover:underline",
         // material
         elevated:
           "ripple-primary bg-surface-container-low text-primary elevation-1 data-disabled:elevation-0",
-        filled: CSS.FILLED,
-        tonal: CSS.TONAL,
-        outlined: CSS.OUTLINED,
-        standard: CSS.STANDARD,
+        filled: "ripple-on-primary bg-primary text-on-primary",
+        tonal:
+          "ripple-on-secondary-container bg-secondary-container text-on-secondary-container",
+        outlined:
+          "ripple-on-surface-variant bg-[initial] text-on-surface-variant *:data-[slot=outline]:border-solid",
+        standard: "ripple-primary bg-[initial] text-primary",
       },
       size: {
         // original
@@ -77,12 +73,12 @@ const button = cva(
       },
       shape: {
         round: "rounded-full",
-        square: "",
+        square: null,
       },
       width: {
-        narrow: "",
-        default: "",
-        wide: "",
+        narrow: null,
+        default: null,
+        wide: null,
       },
     },
     // prettier-ignore
@@ -154,27 +150,59 @@ const button = cva(
 type ButtonProps = ButtonPrimitive.Props & VariantProps<typeof button>;
 
 function Button({
-  variant = "filled",
-  size = "sm",
-  shape = "round",
-  width,
-  className,
   children,
+  className,
+  shape = "round",
+  size,
+  style: styleProp,
+  variant = "filled",
+  width = "default",
   ...props
 }: ButtonProps) {
-  const outlined = useMemo(
-    () => variant === "outline" || variant === "outlined",
-    [variant]
-  );
+  const buttonGroup = useButtonGroup();
+  const buttonRef = useRef<HTMLElement>(null);
+  const [style, setStyle] = useState(styleProp);
+
+  useEffect(() => {
+    if (buttonRef.current) {
+      const { width } = getCssDimensions(buttonRef.current);
+      if (width > 0) {
+        setStyle({ ...style, ["--button-width" as string]: `${width}px` });
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log({ buttonGroup });
+  }, [buttonGroup]);
+
   return (
     <ButtonPrimitive
       data-slot="button"
-      className={cn(button({ variant, size, shape, width, className }))}
+      data-shape={shape ?? undefined}
+      data-size={size ?? undefined}
+      data-variant={variant ?? undefined}
+      data-width={width ?? undefined}
+      ref={buttonRef}
+      style={style}
+      className={cn(
+        button({ variant, size, shape, width }),
+        buttonGroup?.variant === "split"
+          ? []
+          : [
+              "active:w-[calc(var(--button-width)+(var(--button-width)*0.15))]",
+              "active:[&+[data-slot=button]]:w-[calc(var(--button-width)-(var(--button-width)*0.075))]",
+              "has-[+[data-slot=button]:active]:w-[calc(var(--button-width)-(var(--button-width)*0.075))]",
+              "active:first:[&+[data-slot=button]]:w-[calc(var(--button-width)-(var(--button-width)*0.15))]",
+              "has-[+[data-slot=button]:active:last-child]:w-[calc(var(--button-width)-(var(--button-width)*0.15))]",
+            ],
+        className
+      )}
       {...props}
     >
       <FocusRing />
       {variant === "elevated" && <Elevation />}
-      {outlined && <Outline />}
+      {(variant === "outlined" || variant === "outline") && <Outline />}
       <Ripple />
       {children}
     </ButtonPrimitive>

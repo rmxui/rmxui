@@ -89,6 +89,7 @@
   --surface-container-high: oklch(0.9327 0.013 321.9);
   --surface-container-highest: oklch(0.9145 0.0131 321.9);
 
+  /* TODO: convert to oklch */
   --boysenberry: rgb(142 73 85);
   --on-boysenberry: rgb(255 255 255);
   --boysenberry-container: rgb(255 217 221);
@@ -238,6 +239,7 @@
   --surface-container-high: oklch(0.2865 0.0116 308.01);
   --surface-container-highest: oklch(0.3304 0.0112 308.09);
 
+  /* TODO: convert to oklch */
   --boysenberry: rgb(255 178 188);
   --on-boysenberry: rgb(86 29 41);
   --boysenberry-container: rgb(114 51 62);
