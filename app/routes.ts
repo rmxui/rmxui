@@ -10,6 +10,7 @@ export default [
     index("routes/_index.tsx"),
     route("button", "routes/button.tsx"),
     route("button-group", "routes/button-group.tsx"),
+    route("card", "routes/card.tsx"),
     route("toggle", "routes/toggle.tsx"),
     route("toggle-group", "routes/toggle-group.tsx"),
   ]),

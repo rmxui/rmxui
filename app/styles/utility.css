@@ -40,9 +40,11 @@
 }
 @utility elevation-* {
   --rm-elevation-level: --value(integer);
+  --rm-elevation-duration: 105ms;
+  --rm-elevation-easing: cubic-bezier(0.02, 0, 1, 1);
 
   &:focus-visible {
-    --rm-elevation-level: calc(--modifier(integer) - 1);
+    --rm-elevation-level: --value(integer);
   }
 
   &:hover {
@@ -50,62 +52,134 @@
   }
 
   &:active {
-    --rm-elevation-level: calc(--modifier(integer) - 1);
+    --rm-elevation-level: --value(integer);
   }
 
   :is(& > *) {
     &[data-slot="elevation"] {
       &::before {
-        --eb-level1-y: clamp(0, var(--rm-elevation-level), 1);
-        --eb-level4-y: clamp(0, var(--rm-elevation-level) - 3, 1);
-        --eb-level5-y: calc(2 * clamp(0, var(--rm-elevation-level) - 4, 1));
-        --eb-y: calc(
-          1px * (var(--eb-level1-y) + var(--eb-level4-y) + var(--eb-level5-y))
+        /* // level0: box-shadow: 0px 0px 0px 0px; */
+        /* // level1: box-shadow: 0px 1px 2px 0px; */
+        /* // level2: box-shadow: 0px 1px 2px 0px; */
+        /* // level3: box-shadow: 0px 1px 3px 0px; */
+        /* // level4: box-shadow: 0px 2px 3px 0px; */
+        /* // level5: box-shadow: 0px 4px 4px 0px; */
+
+        /* // Add a clamped value for each level to build the correct values. */
+        /* // Sass will simplify nested calc()s. */
+
+        /* // 0 + 0 = 0 */
+        /* // --level0-y: 0; // +0 is a no-op */
+        /* // 0 + 1 = 1 */
+        --level1-y: clamp(0, var(--rm-elevation-level), 1);
+        /* // 1 + 0 = 1 */
+        /* // --level2-y: 0; // +0 is a no-op */
+        /* // 1 + 0 = 1 */
+        /* // --level3-y: 0; // +0 is a no-op */
+        /* // 1 + 1 = 2 */
+        --level4-y: clamp(0, var(--rm-elevation-level) - 3, 1);
+        /* // 2 + 2 = 4 */
+        --level5-y: calc(2 * clamp(0, var(--rm-elevation-level) - 4, 1));
+        /* // Convert to px. */
+        --y: calc(1px * (var(--level1-y) + var(--level4-y) + var(--level5-y)));
+
+        /* // 0 + 0 = 0 */
+        /* // --level0-blur: 0; // +0 is a no-op */
+        /* // 0 + 2 = 2 */
+        --level1-blur: calc(2 * clamp(0, var(--rm-elevation-level), 1));
+        /* // 2 + 0 = 2 */
+        /* // --level2-blur: 0; // +0 is a no-op */
+        /* // 2 + 1 = 3 */
+        --level3-blur: clamp(0, var(--rm-elevation-level) - 2, 1);
+        /* // 3 + 0 = 3 */
+        /* // --level4-blur: 0; // +0 is a no-op */
+        /* // 3 + 1 = 4 */
+        --level5-blur: clamp(0, var(--rm-elevation-level) - 4, 1);
+        /* // Convert to px. */
+        --blur: calc(
+          1px * (var(--level1-blur) + var(--level3-blur) + var(--level5-blur))
         );
 
-        --eb-level1-blur: calc(2 * clamp(0, var(--rm-elevation-level), 1));
-        --eb-level3-blur: clamp(0, var(--rm-elevation-level) - 2, 1);
-        --eb-level5-blur: clamp(0, var(--rm-elevation-level) - 4, 1);
-        --eb-blur: calc(
-          1px *
-            (
-              var(--eb-level1-blur) + var(--eb-level3-blur) +
-                var(--eb-level5-blur)
-            )
-        );
-
-        box-shadow: 0px var(--eb-y) var(--eb-blur) 0px var(--color-shadow);
+        box-shadow: 0px var(--y) var(--blur) 0px var(--color-shadow);
         opacity: 0.3;
+
+        transition:
+          box-shadow var(--rm-elevation-duration) var(--rm-elevation-easing),
+          opacity var(--rm-elevation-duration) var(--rm-elevation-easing);
       }
 
       &::after {
-        --ea-level1-y: clamp(0, var(--rm-elevation-level), 1);
-        --ea-level2-y: clamp(0, var(--rm-elevation-level) - 1, 1);
+        /* // level0: box-shadow: 0px 0px 0px 0px; */
+        /* // level1: box-shadow: 0px 1px 3px 1px; */
+        /* // level2: box-shadow: 0px 2px 6px 2px; */
+        /* // level3: box-shadow: 0px 4px 8px 3px; */
+        /* // level4: box-shadow: 0px 6px 10px 4px; */
+        /* // level5: box-shadow: 0px 8px 12px 6px; */
 
-        --ea-y: calc(
-          1px *
-            (var(--ea-level1-y) + var(--ea-level2-y) + var(--ea-level3to5-y))
+        /* // Add a clamped value for each level to build the correct values. */
+        /* // Sass will simplify nested calc()s. */
+
+        /* // 0 + 0 = 0 */
+        /* // --level0-y: 0; // +0 is a no-op */
+        /* // 0 + 1 = 1 */
+        --level1-y: clamp(0, var(--rm-elevation-level), 1);
+        /* // 1 + 1 = 2 */
+        --level2-y: clamp(0, var(--rm-elevation-level) - 1, 1);
+        /* // 2 + 2 = 4 */
+        /* // --level3-y: 2 * clamp(0, var(--rm-elevation-level) - 2, 1); */
+        /* // 4 + 2 = 6 */
+        /* // --level4-y: 2 * clamp(0, var(--rm-elevation-level) - 3, 1); */
+        /* // 6 + 2 = 8 */
+        /* // --level5-y: 2 * clamp(0, var(--rm-elevation-level) - 4, 1); */
+        /* // Levels 3-5 can be simplified by changing the max clamp value. */
+        --level3to5-y: calc(2 * clamp(0, var(--rm-elevation-level) - 2, 3));
+        /* // Convert to px. */
+        --y: calc(
+          1px * (var(--level1-y) + var(--level2-y) + var(--level3to5-y))
         );
 
-        --ea-level1to2-blur: calc(3 * clamp(0, var(--rm-elevation-level), 2));
-        --ea-level3to5-blur: calc(
-          2 * clamp(0, var(--rm-elevation-level) - 2, 3)
-        );
-        --ea-blur: calc(
-          1px * (var(--ea-level1to2-blur) + var(--ea-level3to5-blur))
-        );
+        /* // 0 + 0 = 0 */
+        /* // --level0-blur: 0; // +0 is a no-op */
+        /* // 0 + 3 = 3 */
+        /* // --level1-blur: 3 * clamp(0, var(--rm-elevation-level), 1); */
+        /* // 3 + 3 = 6 */
+        /* // --level2-blur: 3 * clamp(0, var(--rm-elevation-level) - 1, 1); */
+        /* // Levels 1-2 can be simplified by changing the max clamp value. */
+        --level1to2-blur: calc(3 * clamp(0, var(--rm-elevation-level), 2));
+        /* // 6 + 2 = 8 */
+        /* // --level3-blur: 2 * clamp(0, var(--rm-elevation-level) - 2, 1); */
+        /* // 8 + 2 = 10 */
+        /* // --level4-blur: 2 * clamp(0, var(--rm-elevation-level) - 3, 1); */
+        /* // 10 + 2 = 12 */
+        /* // --level5-blur: 2 * clamp(0, var(--rm-elevation-level) - 4, 1); */
+        /* // Levels 3-5 can be simplified by changing the max clamp value. */
+        --level3to5-blur: calc(2 * clamp(0, var(--rm-elevation-level) - 2, 3));
+        /* // Convert to px. */
+        --blur: calc(1px * (var(--level1to2-blur) + var(--level3to5-blur)));
 
-        --ea-level1to4-spread: clamp(0, var(--rm-elevation-level), 4);
-        --ea-level5-spread: calc(
-          2 * clamp(0, var(--rm-elevation-level) - 4, 1)
-        );
-        --ea-spread: calc(
-          1px * (var(--ea-level1to4-spread) + var(--ea-level5-spread))
-        );
+        /* // 0 + 0 = 0 */
+        /* // --level0-spread: 0; // +0 is a no-op */
+        /* // 0 + 1 = 1 */
+        /* // --level1-spread: clamp(0, var(--rm-elevation-level), 1); */
+        /* // 1 + 1 = 2 */
+        /* // --level2-spread: clamp(0, var(--rm-elevation-level) - 1, 1); */
+        /* // 2 + 1 = 3 */
+        /* // --level3-spread: clamp(0, var(--rm-elevation-level) - 2, 1); */
+        /* // 3 + 1 = 4 */
+        /* // --level4-spread: clamp(0, var(--rm-elevation-level) - 3, 1); */
+        /* // 4 + 2 = 6 */
+        /* // Levels 1-4 can be simplified by changing the max clamp value */
+        --level1to4-spread: clamp(0, var(--rm-elevation-level), 4);
+        --level5-spread: calc(2 * clamp(0, var(--rm-elevation-level) - 4, 1));
+        /* // Convert to px. */
+        --spread: calc(1px * (var(--level1to4-spread) + var(--level5-spread)));
 
-        box-shadow: 0px var(--ea-y) var(--ea-blur) var(--ea-spread)
-          var(--color-shadow);
+        box-shadow: 0px var(--y) var(--blur) var(--spread) var(--color-shadow);
         opacity: 0.15;
+
+        transition:
+          box-shadow var(--rm-elevation-duration) var(--rm-elevation-easing),
+          opacity var(--rm-elevation-duration) var(--rm-elevation-easing);
       }
     }
   }
