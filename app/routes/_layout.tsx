@@ -5,6 +5,9 @@ export default function Layout() {
   return (
     <div className="flex min-h-screen">
       <div className="flex shrink-0 flex-col gap-1 p-4">
+        <Button size="xs" nativeButton={false} render={<NavLink to="badge" />}>
+          Badge
+        </Button>
         <Button size="xs" nativeButton={false} render={<NavLink to="button" />}>
           Button
         </Button>

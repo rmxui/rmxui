@@ -66,7 +66,6 @@
         /* // level5: box-shadow: 0px 4px 4px 0px; */
 
         /* // Add a clamped value for each level to build the correct values. */
-        /* // Sass will simplify nested calc()s. */
 
         /* // 0 + 0 = 0 */
         /* // --level0-y: 0; // +0 is a no-op */
@@ -117,7 +116,6 @@
         /* // level5: box-shadow: 0px 8px 12px 6px; */
 
         /* // Add a clamped value for each level to build the correct values. */
-        /* // Sass will simplify nested calc()s. */
 
         /* // 0 + 0 = 0 */
         /* // --level0-y: 0; // +0 is a no-op */
