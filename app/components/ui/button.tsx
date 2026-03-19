@@ -172,10 +172,6 @@ function Button({
     }
   }, []);
 
-  useEffect(() => {
-    console.log({ buttonGroup });
-  }, [buttonGroup]);
-
   return (
     <ButtonPrimitive
       data-slot="button"
