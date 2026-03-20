@@ -1,11 +1,11 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn, isNumber } from "~/lib/utils";
-import { Outline } from "./outline";
-import { Ripple } from "./ripple";
-import { Elevation } from "./elevation";
 import { Children } from "react";
+import { Elevation } from "~/components/ui/elevation";
+import { Outline } from "~/components/ui/outline";
+import { Ripple } from "~/components/ui/ripple";
+import { cn } from "~/lib/utils";
 
 const badgeVariants = cva(
   "group/badge relative flex shrink-0 flex-col items-center justify-center rounded-full border-none text-[10px]/[16px] font-[500] tracking-[0.5px] outline-none",
