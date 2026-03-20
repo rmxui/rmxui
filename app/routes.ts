@@ -11,9 +11,11 @@ export const routes = [
   "button-group",
   "card",
   "checkbox",
+  "radio",
   "toggle",
   "toggle-group",
 ];
+
 export default [
   layout("routes/_layout.tsx", [
     index("routes/_index.tsx"),
