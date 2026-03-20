@@ -1,4 +1,40 @@
 @utility ripple-* {
+  label:focus-visible & {
+    :is(&:not([data-disabled]) > *) {
+      &[data-slot="ripple"] {
+        &::before {
+          background-color: --value(--color-*);
+          opacity: 0.1;
+        }
+      }
+    }
+  }
+
+  label:hover & {
+    @media (hover: hover) {
+      :is(&:not([data-disabled]) > *) {
+        &[data-slot="ripple"] {
+          &::before {
+            background-color: --value(--color- *);
+            opacity: 0.08;
+          }
+        }
+      }
+    }
+  }
+
+  label:active & {
+    :is(&:not([data-disabled]) > *) {
+      &[data-slot="ripple"] {
+        &::after {
+          background-color: --value(--color-*);
+          opacity: 0.1;
+          transition-duration: 105ms;
+        }
+      }
+    }
+  }
+
   &:focus-visible {
     :is(& > *),
     :is(& > [data-slot$="indicator"] > *) {

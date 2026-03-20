@@ -5,14 +5,18 @@ import {
   route,
 } from "@react-router/dev/routes";
 
+export const routes = [
+  "badge",
+  "button",
+  "button-group",
+  "card",
+  "checkbox",
+  "toggle",
+  "toggle-group",
+];
 export default [
   layout("routes/_layout.tsx", [
     index("routes/_index.tsx"),
-    route("badge", "routes/badge.tsx"),
-    route("button", "routes/button.tsx"),
-    route("button-group", "routes/button-group.tsx"),
-    route("card", "routes/card.tsx"),
-    route("toggle", "routes/toggle.tsx"),
-    route("toggle-group", "routes/toggle-group.tsx"),
+    ...routes.map((value) => route(value, `routes/${value}.tsx`)),
   ]),
 ] satisfies RouteConfig;
