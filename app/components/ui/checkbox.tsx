@@ -19,19 +19,28 @@ function Checkbox({ className, ...props }: CheckboxProps) {
     >
       <FocusRing />
       <Ripple />
-      <CheckboxPrimitive.Indicator
-        data-slot="checkbox-indicator"
-        keepMounted
-        className="flex items-center justify-center not-data-unchecked:text-primary data-unchecked:text-on-surface-variant data-disabled:text-on-surface/38"
-        render={(p, s) => (
-          <span {...p}>
-            {s.indeterminate && <IndeterminateIcon />}
-            {!s.indeterminate && s.checked && <CheckedIcon />}
-            {!s.indeterminate && !s.checked && <UncheckedIcon />}
-          </span>
-        )}
-      />
+      <CheckboxIndicator />
     </CheckboxPrimitive.Root>
+  );
+}
+
+type CheckboxIndicatorProps = CheckboxPrimitive.Indicator.Props;
+
+function CheckboxIndicator({ className, ...props }: CheckboxIndicatorProps) {
+  return (
+    <CheckboxPrimitive.Indicator
+      data-slot="checkbox-indicator"
+      keepMounted
+      className="flex items-center justify-center not-data-unchecked:text-primary data-unchecked:text-on-surface-variant data-disabled:text-on-surface/38"
+      render={(p, s) => (
+        <span {...p}>
+          {s.indeterminate && <IndeterminateIcon />}
+          {!s.indeterminate && s.checked && <CheckedIcon />}
+          {!s.indeterminate && !s.checked && <UncheckedIcon />}
+        </span>
+      )}
+      {...props}
+    />
   );
 }
 
@@ -83,4 +92,11 @@ function IndeterminateIcon({ ...props }: React.ComponentProps<"svg">) {
   );
 }
 
-export { Checkbox, CheckboxGroup, type CheckboxGroupProps, type CheckboxProps };
+export {
+  Checkbox,
+  CheckboxGroup,
+  CheckboxIndicator,
+  type CheckboxGroupProps,
+  type CheckboxIndicatorProps,
+  type CheckboxProps,
+};

@@ -39,27 +39,33 @@ function Radio({
                 <>
                   <FocusRing />
                   <Ripple />
-                  <RadioPrimitive.Indicator
-                    data-slot="radio-indicator"
-                    keepMounted
-                    className="data-checked:text-primary data-unchecked:text-on-surface-variant data-disabled:text-on-surface/38"
-                    render={(p, s) => (
-                      <span {...p}>
-                        {s.checked ? <CheckedIcon /> : <UncheckedIcon />}
-                      </span>
-                    )}
-                  />
+                  <RadioIndicator />
                 </>
               ),
             },
             rootProps,
-            {
-              tabIndex: rootState.disabled ? -1 : rootProps.tabIndex,
-            }
+            { tabIndex: rootState.disabled ? -1 : rootProps.tabIndex }
           ),
           state: { ...rootState },
         })
       }
+      {...props}
+    />
+  );
+}
+
+function RadioIndicator({
+  className,
+  ...props
+}: RadioPrimitive.Indicator.Props) {
+  return (
+    <RadioPrimitive.Indicator
+      data-slot="radio-indicator"
+      keepMounted
+      className="data-checked:text-primary data-unchecked:text-on-surface-variant data-disabled:text-on-surface/38"
+      render={(p, s) => (
+        <span {...p}>{s.checked ? <CheckedIcon /> : <UncheckedIcon />}</span>
+      )}
       {...props}
     />
   );
@@ -93,4 +99,4 @@ function UncheckedIcon({ ...props }: React.ComponentProps<"svg">) {
   );
 }
 
-export { Radio, RadioGroup };
+export { Radio, RadioIndicator, RadioGroup };

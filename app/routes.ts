@@ -12,6 +12,7 @@ export const routes = [
   "card",
   "checkbox",
   "dialog",
+  "item",
   "radio",
   "toggle",
   "toggle-group",

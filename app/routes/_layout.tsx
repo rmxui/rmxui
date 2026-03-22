@@ -1,13 +1,7 @@
 import { NavLink, Outlet } from "react-router";
 import { Button } from "~/components/ui/button";
+import { capitalize } from "~/lib/utils";
 import { routes } from "~/routes";
-
-export function capitalize(id: string) {
-  const tokens = id.split("-");
-  return tokens
-    .map((t) => t.charAt(0).toUpperCase() + t.substring(1))
-    .join(" ");
-}
 
 export default function Layout() {
   return (
