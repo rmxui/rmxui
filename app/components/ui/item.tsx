@@ -1,18 +1,21 @@
-import { Checkbox, Radio, RadioGroup } from "@base-ui/react";
+import { Checkbox } from "@base-ui/react/checkbox";
 import { mergeProps } from "@base-ui/react/merge-props";
+import { Radio } from "@base-ui/react/radio";
+import { RadioGroup } from "@base-ui/react/radio-group";
+import { Separator } from "@base-ui/react/separator";
 import { useRender } from "@base-ui/react/use-render";
 import { cva, type VariantProps } from "class-variance-authority";
 import { createContext, useContext } from "react";
+import { CheckboxIndicator } from "~/components/ui/checkbox";
 import { FocusRing } from "~/components/ui/focus-ring";
+import { RadioIndicator } from "~/components/ui/radio-group";
 import { Ripple } from "~/components/ui/ripple";
-import { Separator } from "~/components/ui/separator";
 import { cn } from "~/lib/utils";
 
-type ItemGroupContextState = Pick<
-  VariantProps<typeof itemGroup>,
-  "align" | "mode"
-> &
-  Pick<RadioGroup.Props, "disabled">;
+type ItemGroupContextState = {
+  align?: "middle" | "top";
+  disabled?: boolean;
+};
 
 const ItemGroupContext = createContext<ItemGroupContextState | null>(null);
 
@@ -22,283 +25,394 @@ function useItemGroup() {
 }
 
 const itemGroup = cva(
-  "group/group flex flex-col rounded-[16px] data-disabled:pointer-events-none",
-  {
-    variants: {
-      variant: {
-        default: null,
-        segmented: "gap-[2px]",
-      },
-      mode: {
-        "single-action": null,
-        "multi-action": null,
-        "single-select": null,
-        "multi-select": null,
-        "non-interactive": null,
-      },
-      align: {
-        middle: null,
-        top: null,
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      mode: "single-action",
-      align: "middle",
-    },
-  }
+  "group/item-group flex flex-col overflow-hidden rounded-[16px] border-none outline-none data-segmented:gap-[2px] data-disabled:pointer-events-none"
 );
 
-type ItemGroupProps = (useRender.ComponentProps<"div"> | RadioGroup.Props) &
-  VariantProps<typeof itemGroup> &
-  Pick<RadioGroup.Props, "disabled">;
-
-function ItemGroup({
-  align = "middle",
-  className,
-  disabled,
-  mode = "single-action",
-  render,
-  variant = "default",
-  ...groupProps
-}: ItemGroupProps) {
-  const props = mergeProps(
-    {
-      role: "list",
-      disabled,
-      className: cn(itemGroup({ variant }), className),
-    },
-    groupProps
-  );
-
-  return (
-    <ItemGroupContext value={{ align, disabled, mode }}>
-      {mode === "single-select" ? (
-        <RadioGroup
-          data-slot="item-group"
-          data-mode={mode}
-          data-variant={variant}
-          render={render}
-          {...props}
-        />
-      ) : (
-        useRender({
-          defaultTagName: "div",
-          render: render as useRender.RenderProp,
-          props,
-          state: { slot: "item-group", disabled, mode, variant },
-        })
-      )}
-    </ItemGroupContext>
-  );
-}
-
-function ItemSeparator({
-  className,
-  ...props
-}: React.ComponentProps<typeof Separator>) {
-  return (
-    <Separator
-      data-slot="item-separator"
-      orientation="horizontal"
-      className={cn("my-2", className)}
-      {...props}
-    />
-  );
-}
-
-const item = cva([
-  "group/item relative flex gap-[12px] rounded-[4px] border-none ripple-on-surface bg-surface px-[16px] py-[10px] outline-none",
-  "first:rounded-t-[16px] last-of-type:rounded-b-[16px] hover:rounded-[12px] not-hover:focus-visible:rounded-[16px] active:rounded-[16px]",
-  "focus-visible:*:data-[slot=focus-ring]:-outline-offset-3 focus-visible:*:data-[slot=focus-ring]:outline-solid",
-  "data-non-interactive:pointer-events-none data-checked:rounded-[16px] data-checked:bg-primary-container",
-  "data-disabled:bg-on-surface/10 data-disabled:data-checked:bg-on-surface/38",
-]);
-
-type ItemProps = (
-  | useRender.ComponentProps<"div">
-  | Checkbox.Root.Props
-  | Radio.Root.Props
-) &
-  Pick<ItemGroupContextState, "align" | "disabled"> &
-  VariantProps<typeof item>;
-
-function Item({
-  align: alignProp,
-  children,
-  className,
-  disabled: disabledProp,
-  render,
-  ...itemProps
-}: ItemProps) {
-  const group = useItemGroup();
-  const align = group?.align || alignProp;
-  const disabled = group?.disabled || disabledProp;
-  const defaultProps = {
-    disabled,
-    className: cn(item(), className),
-    children: (
-      <>
-        <FocusRing />
-        <Ripple />
-        {children}
-      </>
-    ),
+type GroupProps = ItemGroupContextState &
+  VariantProps<typeof itemGroup> & {
+    segmented?: boolean;
   };
 
-  const props = mergeProps(defaultProps, itemProps);
-  if (group?.mode === "multi-select") {
-    return (
-      <Checkbox.Root
-        data-slot="item"
-        data-align={align}
-        {...(props as Checkbox.Root.Props)}
-      />
-    );
-  }
+type ItemGroupProps = useRender.ComponentProps<"div"> & GroupProps;
 
-  if (group?.mode === "single-select") {
-    return (
-      <Radio.Root
-        data-slot="item"
-        render={(p, s) =>
-          useRender({
-            defaultTagName: "div",
-            render: render as useRender.RenderProp,
-            props: { ...p, tabIndex: s.disabled ? -1 : p.tabIndex },
-            state: { ...s, align },
-          })
-        }
-        {...(props as Radio.Root.Props)}
-      />
-    );
-  }
-
+function ItemGroup({
+  align,
+  disabled,
+  render,
+  segmented,
+  className,
+  children,
+  ...props
+}: ItemGroupProps) {
   return useRender({
     defaultTagName: "div",
-    render: render as useRender.RenderProp,
-    props: { ...props, tabIndex: disabled ? -1 : 0 },
+    render,
+    props: mergeProps(
+      {
+        disabled,
+        className: cn(itemGroup(), className),
+        children: (
+          <ItemGroupContext value={{ align, disabled }}>
+            {children}
+          </ItemGroupContext>
+        ),
+      },
+      props
+    ),
     state: {
-      slot: "item",
+      slot: "item-group",
       align,
       disabled,
-      "non-interactive": group?.mode === "non-interactive",
+      segmented,
     },
   });
 }
 
+type ItemRadioGroupProps = RadioGroup.Props & GroupProps;
+
+function ItemRadioGroup({
+  align,
+  disabled,
+  render,
+  segmented,
+  className,
+  children,
+  ...props
+}: ItemRadioGroupProps) {
+  return (
+    <ItemGroupContext value={{ align, disabled }}>
+      <RadioGroup
+        data-slot="item-radio-group"
+        data-align={align}
+        data-segmented={segmented ? "" : undefined}
+        disabled={disabled}
+        className={cn(itemGroup(), className)}
+        {...props}
+      >
+        {children}
+      </RadioGroup>
+    </ItemGroupContext>
+  );
+}
+
+type ItemGroupLabelProps = useRender.ComponentProps<"div">;
+
+function ItemGroupLabel({
+  children,
+  className,
+  render,
+  ...props
+}: ItemGroupLabelProps) {
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps(
+      {
+        className: cn(className),
+        children: <>{children}</>,
+      },
+      props
+    ),
+    state: { slot: "item-group-label" },
+  });
+}
+
+const item = cva([
+  "group/item relative flex items-center gap-[12px] rounded-[4px] border-none ripple-on-surface bg-surface px-[16px] py-[10px] outline-none",
+  "group-data-[align=top]/item-group:items-start hover:rounded-[12px] focus-visible:rounded-[16px] active:rounded-[16px]",
+  "focus-visible:*:data-[slot=focus-ring]:-outline-offset-3 focus-visible:*:data-[slot=focus-ring]:outline-solid",
+  "data-checked:rounded-[16px] data-checked:bg-secondary-container data-checked:text-on-surface-variant",
+  "data-checked:hover:rounded-[16px] data-checked:focus-visible:rounded-[16px] data-checked:active:rounded-[16px] data-disabled:pointer-events-none",
+  "data-disabled:rounded-[4px] data-disabled:bg-on-surface/10 data-checked:data-disabled:rounded-[16px] data-checked:data-disabled:bg-on-surface/38",
+]);
+
+type BaseProps = ItemGroupContextState & VariantProps<typeof item>;
+
+function Base() {
+  return (
+    <>
+      <FocusRing />
+      <Ripple />
+    </>
+  );
+}
+
+type ItemProps = useRender.ComponentProps<"span"> & BaseProps;
+
+function Item({
+  align: alignProp,
+  disabled: disabledProp,
+  render,
+  className,
+  children,
+  ...props
+}: ItemProps) {
+  const group = useItemGroup();
+  const align = alignProp ?? group?.align;
+  const disabled = disabledProp ?? group?.disabled;
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps(
+      {
+        disabled,
+        className: cn(item(), "pointer-events-none", className),
+        children,
+      },
+      props
+    ),
+    state: { slot: "item", align, disabled },
+  });
+}
+
 const itemMedia = cva(
-  "flex shrink-0 items-center justify-center group-data-[align=top]/item:items-start group-data-checked/item:text-on-primary-container group-data-disabled/item:text-on-surface/38",
+  "flex items-center justify-center group-data-[align=top]/item:data-[variant=icon]:mt-[2px]",
   {
     variants: {
       variant: {
-        avatar:
-          "size-[40px] bg-primary-container text-[16px]/[24px] font-[500] tracking-[0.15px] text-on-primary-container",
-        checkbox: null, //"*:data-[slot=checkbox-indicator]:*:[svg]:size-[20px]",
-        icon: "p-[2px] text-on-surface-variant *:[svg]:pointer-events-none *:[svg]:size-[20px]",
-        image: "aspect-square size-[56px] rounded-[8px] *:[svg]:size-[56px]",
-        radio: null, //"*:data-[slot=radio-indicator]:*:[svg]:size-[20px]",
+        avatar: [
+          "size-[40px] rounded-full group-data-disabled/item:**:text-on-surface/38",
+          "group-data-disabled/item:not-has-data-[slot=avatar-fallback]:bg-on-surface/10",
+          "group-data-disabled/item:not-has-data-[slot=avatar-fallback]:text-on-surface/38",
+          "group-data-disabled/item:has-data-[slot=avatar-fallback]:**:data-[slot=avatar-fallback]:bg-on-surface/10",
+          "group-data-disabled/item:has-data-[slot=avatar-fallback]:**:data-[slot=avatar-fallback]:text-on-surface/38",
+        ],
+        icon: "*:[svg]:size-[20px] *:[svg]:text-on-surface-variant group-hover/item:group-data-checked/item:*:[svg]:text-on-surface group-data-disabled/item:*:[svg]:text-on-surface/38",
+        image:
+          "aspect-square h-[56px] w-[56px] rounded-[8px] group-data-disabled/item:bg-on-surface/10 group-data-disabled/item:text-on-surface/38",
+        video:
+          "aspect-video h-[56px] w-[100px] rounded-[8px] group-data-disabled/item:bg-on-surface/10 group-data-disabled/item:text-on-surface/38",
+        checkbox: null,
+        radio: null,
         switch: null,
-        video: "rounded-[8px]",
-      },
-      size: {
-        default: null,
-        lg: null,
       },
     },
-    compoundVariants: [
-      { size: "default", variant: "video", class: "h-[56px] w-[100px]" },
-      { size: "lg", variant: "video", class: "h-[64px] w-[114px]" },
-    ],
     defaultVariants: {
       variant: "icon",
-      size: "default",
     },
   }
 );
 
-function ItemMedia({
+type ItemMediaProps = useRender.ComponentProps<"span"> &
+  VariantProps<typeof itemMedia>;
+
+function ItemMedia({ className, render, variant, ...props }: ItemMediaProps) {
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps(
+      {
+        className: cn(itemMedia({ variant }), className),
+      },
+      props
+    ),
+    state: { slot: "item-media", variant },
+  });
+}
+
+type ItemContentProps = useRender.ComponentProps<"span">;
+
+function ItemContent({ className, render, ...props }: ItemContentProps) {
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps(
+      {
+        className: cn(
+          "flex max-h-[88px] grow flex-col justify-center",
+          className
+        ),
+      },
+      props
+    ),
+    state: { slot: "item-content" },
+  });
+}
+
+type ItemOverlineProps = useRender.ComponentProps<"span">;
+
+function ItemOverline({ className, render, ...props }: ItemOverlineProps) {
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps(
+      {
+        className: cn(
+          "text-[11px]/[16px] font-[500] tracking-[0.5px] text-on-surface-variant group-data-checked/item:text-on-secondary-container group-data-disabled/item:text-on-surface/38",
+          className
+        ),
+      },
+      props
+    ),
+    state: { slot: "item-overline" },
+  });
+}
+
+type ItemTitleProps = useRender.ComponentProps<"span">;
+
+function ItemTitle({ className, render, ...props }: ItemTitleProps) {
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps(
+      {
+        className: cn(
+          "text-[16px]/[24px] font-[400] tracking-[0.5px] text-on-surface group-data-checked/item:text-on-secondary-container group-data-disabled/item:text-on-surface/38",
+          className
+        ),
+      },
+      props
+    ),
+    state: { slot: "item-title" },
+  });
+}
+
+type ItemDescriptionProps = useRender.ComponentProps<"span">;
+
+function ItemDescription({
   className,
-  size = "default",
-  variant = "icon",
+  render,
   ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof itemMedia>) {
+}: ItemDescriptionProps) {
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps(
+      {
+        className: cn(
+          "text-[14px]/[20px] font-[400] tracking-[0.25px] text-on-surface-variant group-data-checked/item:text-on-secondary-container group-data-disabled/item:text-on-surface/38",
+          className
+        ),
+      },
+      props
+    ),
+    state: { slot: "item-description" },
+  });
+}
+
+type ItemActionsProps = useRender.ComponentProps<"span">;
+
+function ItemActions({ className, render, ...props }: ItemActionsProps) {
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps(
+      {
+        className: cn(
+          "flex items-center justify-center text-[11px]/[16px] font-[500] tracking-[0.5px] text-on-surface-variant group-data-checked/item:text-on-secondary-container group-data-disabled/item:text-on-surface/38 *:[svg]:size-[20px] *:[svg]:text-on-surface-variant group-hover/item:group-data-checked/item:*:[svg]:text-on-surface group-data-disabled/item:*:[svg]:text-on-surface/38",
+          className
+        ),
+      },
+      props
+    ),
+    state: { slot: "item-actions" },
+  });
+}
+
+type ItemLinkProps = useRender.ComponentProps<"a"> & BaseProps;
+
+function ItemLink({
+  align: alignProp,
+  disabled: disabledProp,
+  render,
+  tabIndex = 0,
+  className,
+  children,
+  ...props
+}: ItemLinkProps) {
+  const group = useItemGroup();
+  const align = alignProp ?? group?.align;
+  const disabled = disabledProp ?? group?.disabled;
+
+  return useRender({
+    defaultTagName: "a",
+    render,
+    props: mergeProps(
+      {
+        disabled,
+        tabIndex: disabled ? -1 : tabIndex,
+        className: cn(item(), className),
+        children: (
+          <>
+            <Base />
+            {children}
+          </>
+        ),
+      },
+      props
+    ),
+    state: { slot: "item", align, disabled },
+  });
+}
+
+type ItemRadioProps = Radio.Root.Props & BaseProps;
+
+function ItemRadio({
+  align: alignProp,
+  children,
+  className,
+  ...props
+}: ItemRadioProps) {
+  const group = useItemGroup();
+  const align = alignProp ?? group?.align;
+
   return (
-    <div
-      data-slot="item-media"
-      data-variant={variant}
-      className={cn(itemMedia({ variant, size }), className)}
+    <Radio.Root
+      data-slot="item-radio"
+      data-align={align}
+      className={cn(item(), className)}
       {...props}
-    />
+    >
+      <Base />
+      {children}
+    </Radio.Root>
   );
 }
 
-function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
+type ItemRadioIndicatorProps = Radio.Indicator.Props;
+
+function ItemRadioIndicator({ ...props }: ItemRadioIndicatorProps) {
+  return <RadioIndicator data-slot="item-radio-indicator" {...props} />;
+}
+
+type ItemCheckboxProps = Checkbox.Root.Props & BaseProps;
+
+function ItemCheckbox({
+  align: alignProp,
+  disabled: disabledProp,
+  className,
+  children,
+  ...props
+}: ItemCheckboxProps) {
+  const group = useItemGroup();
+  const align = alignProp ?? group?.align;
+  const disabled = disabledProp ?? group?.disabled;
   return (
-    <div
-      data-slot="item-content"
-      className={cn(
-        "flex grow flex-col justify-center group-data-[align=top]/item:justify-start",
-        className
-      )}
+    <Checkbox.Root
+      data-slot="item-checkbox"
+      data-align={align}
+      disabled={disabled}
+      className={cn(item(), className)}
       {...props}
-    />
+    >
+      <Base />
+      {children}
+    </Checkbox.Root>
   );
 }
 
-function ItemOverline({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="item-overline"
-      className={cn(
-        "text-[11px]/[16px] font-[500] tracking-[0.5px] text-on-surface-variant",
-        "group-data-checked/item:text-on-primary-container group-data-disabled/item:text-on-surface/38",
-        className
-      )}
-      {...props}
-    />
-  );
+type ItemCheckboxIndicatorProps = Checkbox.Indicator.Props;
+
+function ItemCheckboxIndicator({ ...props }: ItemCheckboxIndicatorProps) {
+  return <CheckboxIndicator data-slot="item-radio-indicator" {...props} />;
 }
 
-function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="item-title"
-      className={cn(
-        "text-[16px]/[24px] font-[400] tracking-[0.5px] text-on-surface",
-        "group-data-checked/item:text-on-primary-container group-data-disabled/item:text-on-surface/38",
-        className
-      )}
-      {...props}
-    />
-  );
-}
+type ItemSeparatorProps = Separator.Props;
 
-type ItemDescriptionProps = React.ComponentProps<"p">;
-
-function ItemDescription({ className, ...props }: ItemDescriptionProps) {
+function ItemSeparator({ className, ...props }: ItemSeparatorProps) {
   return (
-    <p
-      data-slot="item-description"
-      className={cn(
-        "text-[14px]/[20px] font-[400] tracking-[0.25px] text-on-surface-variant",
-        "group-data-checked/item:text-on-primary-container group-data-disabled/item:text-on-surface/38",
-        className
-      )}
-      {...props}
-    />
-  );
-}
-
-function ItemActions({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="item-actions"
-      className={cn(
-        "flex shrink-0 items-center text-[11px]/[16px] font-[500] tracking-[0.5px] text-on-surface-variant *:[svg]:pointer-events-none *:[svg]:size-[20px]",
-        "group-data-[align=top]/item:items-start group-data-checked/item:text-on-primary-container group-data-disabled/item:text-on-surface/38",
-        className
-      )}
+    <Separator
+      className={cn("h-px bg-outline-variant px-[16px]", className)}
       {...props}
     />
   );
@@ -307,11 +421,17 @@ function ItemActions({ className, ...props }: React.ComponentProps<"div">) {
 export {
   Item,
   ItemActions,
+  ItemCheckbox,
+  ItemCheckboxIndicator,
   ItemContent,
   ItemDescription,
   ItemGroup,
+  ItemGroupLabel,
+  ItemLink,
   ItemMedia,
   ItemOverline,
-  ItemSeparator,
+  ItemRadio,
+  ItemRadioGroup,
+  ItemRadioIndicator,
   ItemTitle,
 };

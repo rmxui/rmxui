@@ -1,139 +1,235 @@
-import { Fragment, useState } from "react";
+import { useState } from "react";
+import { NavLink } from "react-router";
+import { Avatar, AvatarFallback } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
-import { CheckboxIndicator } from "~/components/ui/checkbox";
 import {
   Item,
   ItemActions,
+  ItemCheckbox,
+  ItemCheckboxIndicator,
   ItemContent,
   ItemDescription,
   ItemGroup,
+  ItemLink,
   ItemMedia,
+  ItemRadio,
+  ItemRadioGroup,
+  ItemRadioIndicator,
   ItemTitle,
 } from "~/components/ui/item";
-import { RadioIndicator } from "~/components/ui/radio-group";
 import { capitalize, cn } from "~/lib/utils";
 
-const actionModes = [
-  "single-action",
-  "multi-action",
-  "non-interactive",
-] as const;
-const selectModes = [
-  { id: "single-select", trailing: false },
-  { id: "single-select", trailing: true },
-  { id: "multi-select", trailing: false },
-  { id: "multi-select", trailing: true },
-] as const;
-const items = [
-  "list-item-1",
-  "list-item-2",
-  "list-item-3",
-  "list-item-4",
-] as const;
-const medias = [
-  // "avatar"
-  "image",
-  "video",
-  "icon",
-  "checkbox",
-  "radio",
-  "text",
-] as const;
-const contents = [
-  {
-    id: 3,
-    title: "List item",
-    desc: "Supporting text that is long enough to fill multiple lines",
+const media: Record<string, any> = {
+  avatar: {
+    id: "avatar",
+    content: (
+      <Avatar>
+        <AvatarFallback>A</AvatarFallback>
+      </Avatar>
+    ),
   },
-  {
-    id: 2,
-    title: "List item",
-    desc: "Supporting text",
+  video: { id: "video", content: null },
+  image: { id: "image", content: null },
+  icon: { id: "icon", content: <StarsIcon /> },
+  checkbox: { id: "checkbox", content: <ItemCheckboxIndicator /> },
+  radio: { id: "radio", content: <ItemRadioIndicator /> },
+};
+const action: Record<string, any> = {
+  checkbox: { id: "checkbox", content: <ItemCheckboxIndicator /> },
+  radio: { id: "radio", content: <ItemRadioIndicator /> },
+  text: { id: "text", content: "99+" },
+  multi: {
+    id: "multi",
+    content: (
+      <>
+        <Button variant="standard" size="icon-xs">
+          <BookmarkIcon />
+        </Button>
+        <Button variant="standard" size="icon-xs">
+          <MoreHorizIcon />
+        </Button>
+      </>
+    ),
   },
-  {
-    id: 1,
-    title: "List item",
-  },
+};
+const threeLine = (
+  <>
+    Supporting text
+    <br />
+    with extra text
+  </>
+);
+const desc: Record<string, any> = {
+  "three-line-top-aligned": threeLine,
+  "three-line": threeLine,
+  "two-line": "Supporting text",
+};
+const defaultItems: Record<string, any>[] = [
+  { id: "list-item-1", media: null },
+  { id: "list-item-2", media: null },
+  { id: "list-item-3", media: null },
+  { id: "list-item-4", media: null },
 ];
-const disabledStates = [false, true];
+const selectVariants: Record<string, any>[] = [
+  { id: "single-select", type: "radio", mediaId: "icon", actionId: null },
+  { id: "single-select", type: "radio", mediaId: "radio", actionId: null },
+  { id: "single-select", type: "radio", mediaId: "icon", actionId: "radio" },
+  { id: "multi-select", type: "checkbox", mediaId: "icon", actionId: null },
+  { id: "multi-select", type: "checkbox", mediaId: "checkbox", actionId: null },
+  {
+    id: "multi-select",
+    type: "checkbox",
+    mediaId: "icon",
+    actionId: "checkbox",
+  },
+  { id: "single-action", type: "link", mediaId: "icon", actionId: "text" },
+  { id: "multi-action", type: "link", mediaId: "icon", actionId: "multi" },
+  { id: "non-interactive", type: "default", mediaId: "icon", actionId: "text" },
+];
+const actionVariants: Record<string, any>[] = [
+  { id: "three-line", type: "link", mediaId: "avatar", actionId: "text" },
+  { id: "two-line", type: "link", mediaId: "avatar", actionId: "text" },
+  { id: "one-line", type: "link", mediaId: "avatar", actionId: "text" },
+  { id: "three-line", type: "link", mediaId: "image", actionId: "text" },
+  { id: "two-line", type: "link", mediaId: "image", actionId: "text" },
+  { id: "one-line", type: "link", mediaId: "image", actionId: "text" },
+  { id: "three-line", type: "link", mediaId: "video", actionId: "text" },
+  { id: "two-line", type: "link", mediaId: "video", actionId: "text" },
+  { id: "one-line", type: "link", mediaId: "video", actionId: "text" },
+  { id: "three-line", type: "link", mediaId: "icon", actionId: "text" },
+  { id: "two-line", type: "link", mediaId: "icon", actionId: "text" },
+  { id: "one-line", type: "link", mediaId: "icon", actionId: "text" },
+  { id: "three-line", type: "link", mediaId: "text", actionId: "text" },
+  { id: "two-line", type: "link", mediaId: "text", actionId: "text" },
+  { id: "one-line", type: "link", mediaId: "text", actionId: "text" },
+  { id: "three-line", type: "checkbox", mediaId: "checkbox", actionId: null },
+  { id: "two-line", type: "checkbox", mediaId: "checkbox", actionId: null },
+  { id: "one-line", type: "checkbox", mediaId: "checkbox", actionId: null },
+  { id: "three-line", type: "checkbox", mediaId: "text", actionId: "checkbox" },
+  { id: "two-line", type: "checkbox", mediaId: "text", actionId: "checkbox" },
+  { id: "one-line", type: "checkbox", mediaId: "text", actionId: "checkbox" },
+  { id: "three-line", type: "radio", mediaId: "radio", actionId: null },
+  { id: "two-line", type: "radio", mediaId: "radio", actionId: null },
+  { id: "one-line", type: "radio", mediaId: "radio", actionId: null },
+  { id: "three-line", type: "radio", mediaId: "text", actionId: "radio" },
+  { id: "two-line", type: "radio", mediaId: "text", actionId: "radio" },
+  { id: "one-line", type: "radio", mediaId: "text", actionId: "radio" },
+];
+function getItems(variant: Record<string, any>) {
+  const items = [];
+  const arr = Array.from(defaultItems);
+  if (variant.id.endsWith("line")) {
+    return [
+      {
+        ...arr[0],
+        type: variant.type,
+        media: { ...media[variant.mediaId] },
+        actions: { ...action[variant.actionId] },
+        desc: desc[variant.id],
+      },
+    ];
+  }
+  for (const item of arr) {
+    items.push({
+      ...item,
+      type: variant.type,
+      media: { ...media[variant.mediaId] },
+      actions: { ...action[variant.actionId] },
+      desc: desc[variant.id],
+    });
+  }
+  return items;
+}
 
+function getTitle(variant: Record<string, any>) {
+  const { id, type, mediaId, actionId } = variant;
+  if (id.endsWith("line")) {
+    const action = actionId ? `trailing-${actionId}` : "";
+    return `leading-${mediaId}-${action}`;
+  }
+  return variant.id;
+}
+function renderGroup(
+  variant: Record<string, any>,
+  isSegmented = false,
+  isDisabled = false
+) {
+  if (variant.id === null) return <div></div>;
+
+  const key = variant.id + variant.type + variant.mediaId + variant.actionId;
+  const align = variant.id === "three-line" ? "top" : undefined;
+  const items = getItems(variant);
+  const content =
+    variant.type === "radio" ? (
+      <ItemRadioGroup
+        align={align}
+        disabled={isDisabled}
+        segmented={isSegmented}
+        defaultValue="list-item-2"
+      >
+        {items.map(renderItem)}
+      </ItemRadioGroup>
+    ) : (
+      <ItemGroup align={align} disabled={isDisabled} segmented={isSegmented}>
+        {items.map(renderItem)}
+      </ItemGroup>
+    );
+  return (
+    <div key={key}>
+      <div>{capitalize(getTitle(variant))}</div>
+      <div>{content}</div>
+    </div>
+  );
+}
+function renderItem(item: Record<string, any>) {
+  const key = item.type + item.id;
+  const content = (
+    <>
+      {item.media?.id && (
+        <ItemMedia
+          variant={item.media.id}
+          className={cn(
+            (item.media.id === "video" || item.media.id === "image") &&
+              "bg-tertiary"
+          )}
+        >
+          {item.media.content}
+        </ItemMedia>
+      )}
+      <ItemContent>
+        <ItemTitle>{capitalize(item.id)}</ItemTitle>
+        {item.desc && <ItemDescription>{item.desc}</ItemDescription>}
+      </ItemContent>
+      {item.actions && <ItemActions>{item.actions.content}</ItemActions>}
+    </>
+  );
+
+  if (item.type === "radio") {
+    return (
+      <ItemRadio key={key} value={item.id}>
+        {content}
+      </ItemRadio>
+    );
+  }
+  if (item.type === "checkbox") {
+    return (
+      <ItemCheckbox key={key} defaultChecked={item.id === "list-item-2"}>
+        {content}
+      </ItemCheckbox>
+    );
+  }
+  if (item.type === "link") {
+    return (
+      <ItemLink key={key} render={<NavLink to={"#" + key} />}>
+        {content}
+      </ItemLink>
+    );
+  }
+  return <Item key={key}>{content}</Item>;
+}
 export default function ItemRoute() {
   const [variant, setVariant] = useState<any>("segmented");
-
-  function getItemMedia(mode?: any) {
-    if (mode === "multi-select") {
-      return (
-        <ItemMedia variant="checkbox">
-          <CheckboxIndicator />
-        </ItemMedia>
-      );
-    }
-    if (mode === "single-select") {
-      return (
-        <ItemMedia variant="radio">
-          <RadioIndicator />
-        </ItemMedia>
-      );
-    }
-    return (
-      <ItemMedia variant="icon">
-        <StarsIcon />
-      </ItemMedia>
-    );
-  }
-
-  function getItemContent(item?: any) {
-    return (
-      <ItemContent>
-        <ItemTitle>{capitalize(item)}</ItemTitle>
-      </ItemContent>
-    );
-  }
-
-  function getItemActions(mode?: any, showSelect = false) {
-    if (mode === "multi-action") {
-      return (
-        <ItemActions>
-          <Button
-            variant="standard"
-            size="icon-xs"
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            <BookmarkIcon />
-          </Button>
-          <Button
-            variant="standard"
-            size="icon-xs"
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            <MoreHorizIcon />
-          </Button>
-        </ItemActions>
-      );
-    }
-    if (mode === "multi-select" && showSelect) {
-      return (
-        <ItemActions>
-          <CheckboxIndicator />
-        </ItemActions>
-      );
-    }
-    if (mode === "single-select" && showSelect) {
-      return (
-        <ItemActions>
-          <RadioIndicator />
-        </ItemActions>
-      );
-    }
-    if (mode === "non-interactive") {
-      return <ItemActions>100</ItemActions>;
-    }
-    return null;
-  }
+  const [disabled, setDisabled] = useState<any>("false");
 
   return (
     <div className="flex flex-col gap-4 bg-surface-dim p-2">
@@ -150,115 +246,28 @@ export default function ItemRoute() {
             <option value="segmented">Segmented</option>
           </select>
         </div>
+        <div className="flex gap-1">
+          <label htmlFor="disabled">Disabled:</label>
+          <select
+            id="disabled"
+            className="border outline-none"
+            value={disabled}
+            onChange={(e) => setDisabled(e.target.value)}
+          >
+            <option value="false">No</option>
+            <option value="true">Yes</option>
+          </select>
+        </div>
       </div>
       <div className="grid grid-cols-3 gap-4">
-        {medias.map((media) => (
-          <div key={media}>
-            <div>Leading {capitalize(media)}</div>
-            <div className="flex flex-col gap-4">
-              {contents.map((content) => (
-                <ItemGroup
-                  key={content.id}
-                  align={content.id === 3 ? "top" : "middle"}
-                  mode={
-                    (
-                      {
-                        checkbox: "multi-select",
-                        radio: "single-select",
-                      } as any
-                    )[media]
-                  }
-                >
-                  <Item
-                    value={
-                      ({ checkbox: content.id, radio: content.id } as any)[
-                        media
-                      ]
-                    }
-                  >
-                    <ItemMedia
-                      variant={media as any}
-                      className={cn({
-                        hidden: media === "text",
-                        "bg-tertiary": media === "image" || media === "video",
-                      })}
-                    >
-                      {media === "checkbox" && <CheckboxIndicator />}
-                      {media === "radio" && <RadioIndicator />}
-                      {media === "icon" && <StarsIcon />}
-                    </ItemMedia>
-                    <ItemContent>
-                      <ItemTitle>{content.title}</ItemTitle>
-                      {content.desc && (
-                        <ItemDescription>{content.desc}</ItemDescription>
-                      )}
-                    </ItemContent>
-                  </Item>
-                </ItemGroup>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="grid grid-cols-4 gap-4">
-        {disabledStates.map((disabled) => (
-          <Fragment key={disabled ? "disabled" : "endabled"}>
-            {selectModes.map((mode) => (
-              <div>
-                <div>{capitalize(mode.id)}</div>
-                <ItemGroup
-                  variant={variant}
-                  mode={mode.id}
-                  disabled={disabled}
-                  value={
-                    disabled && mode.id === "single-select"
-                      ? "list-item-2"
-                      : undefined
-                  }
-                >
-                  {items.map((item) => {
-                    return (
-                      <Item
-                        key={item}
-                        value={item}
-                        defaultChecked={
-                          disabled && mode.id === "multi-select"
-                            ? item === "list-item-3"
-                            : undefined
-                        }
-                      >
-                        {getItemMedia()}
-                        {getItemContent(item)}
-                        {getItemActions(mode.id, mode.trailing)}
-                      </Item>
-                    );
-                  })}
-                </ItemGroup>
-              </div>
-            ))}
-          </Fragment>
-        ))}
+        {selectVariants.map((value) =>
+          renderGroup(value, variant === "segmented", disabled === "true")
+        )}
       </div>
       <div className="grid grid-cols-3 gap-4">
-        {actionModes.map((mode) => (
-          <div key={mode}>
-            <div>{capitalize(mode)}</div>
-            <ItemGroup variant={variant} mode={mode}>
-              {items.map((item) => {
-                return (
-                  <Item
-                    key={item}
-                    value={mode.includes("select") ? item : undefined}
-                  >
-                    {getItemMedia()}
-                    {getItemContent(item)}
-                    {getItemActions(mode)}
-                  </Item>
-                );
-              })}
-            </ItemGroup>
-          </div>
-        ))}
+        {actionVariants.map((value) =>
+          renderGroup(value, variant === "segmented", disabled === "true")
+        )}
       </div>
     </div>
   );
