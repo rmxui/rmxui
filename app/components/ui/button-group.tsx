@@ -1,19 +1,22 @@
-import { mergeProps } from "@base-ui/react/merge-props";
-import { useRender } from "@base-ui/react/use-render";
-import { cva, type VariantProps } from "class-variance-authority";
-import { createContext, useContext } from "react";
-import { Separator } from "~/components/ui/separator";
-import { cn } from "~/lib/utils";
+"use client"
+import { createContext, useContext } from "react"
 
-type ButtonGroupContextState = VariantProps<typeof buttonGroup>;
+import { mergeProps } from "@base-ui/react/merge-props"
+import { useRender } from "@base-ui/react/use-render"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { Separator } from "~/components/ui/separator"
+import { cn } from "~/lib/utils"
+
+type ButtonGroupContextState = VariantProps<typeof buttonGroup>
 
 const ButtonGroupContext = createContext<ButtonGroupContextState | undefined>(
   undefined
-);
+)
 
 function useButtonGroup() {
-  const context = useContext(ButtonGroupContext);
-  return context;
+  const context = useContext(ButtonGroupContext)
+  return context
 }
 
 const buttonGroup = cva("group/button-group peer/button-group inline-flex", {
@@ -105,10 +108,10 @@ const buttonGroup = cva("group/button-group peer/button-group inline-flex", {
   defaultVariants: {
     size: "sm",
   },
-});
+})
 
 type ButtonGroupProps = React.ComponentProps<"div"> &
-  VariantProps<typeof buttonGroup>;
+  VariantProps<typeof buttonGroup>
 
 function ButtonGroup({
   className,
@@ -127,7 +130,7 @@ function ButtonGroup({
         {...props}
       />
     </ButtonGroupContext>
-  );
+  )
 }
 
 function ButtonGroupText({
@@ -150,7 +153,7 @@ function ButtonGroupText({
     state: {
       slot: "button-group-text",
     },
-  });
+  })
 }
 
 function ButtonGroupSeparator({
@@ -168,7 +171,7 @@ function ButtonGroupSeparator({
       )}
       {...props}
     />
-  );
+  )
 }
 
 export {
@@ -178,4 +181,4 @@ export {
   ButtonGroupText,
   useButtonGroup,
   type ButtonGroupProps,
-};
+}

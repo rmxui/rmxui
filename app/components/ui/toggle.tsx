@@ -1,7 +1,9 @@
-import { Toggle as TogglePrimitive } from "@base-ui/react/toggle";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "~/lib/utils";
-import { Button, button, type ButtonProps } from "./button";
+"use client"
+import { Toggle as TogglePrimitive } from "@base-ui/react/toggle"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { Button, button, type ButtonProps } from "~/components/ui/button"
+import { cn } from "~/lib/utils"
 
 const toggle = cva(
   [
@@ -132,11 +134,11 @@ const toggle = cva(
       shape: "round",
     },
   }
-);
+)
 
 type ToggleProps = TogglePrimitive.Props &
   VariantProps<typeof button> &
-  VariantProps<typeof toggle>;
+  VariantProps<typeof toggle>
 
 function Toggle({
   variant = "filled",
@@ -165,7 +167,7 @@ function Toggle({
       }
       {...props}
     />
-  );
+  )
 }
 
-export { Toggle, toggle, type ToggleProps };
+export { Toggle, toggle, type ToggleProps }

@@ -1,31 +1,34 @@
-import { Toggle as TogglePrimitive } from "@base-ui/react/toggle";
-import { ToggleGroup as ToggleGroupPrimitive } from "@base-ui/react/toggle-group";
-import { cva, type VariantProps } from "class-variance-authority";
-import { createContext, useContext } from "react";
-import { toggle } from "~/components/ui/toggle";
-import { cn } from "~/lib/utils";
-import { Button, type ButtonProps } from "./button";
+"use client"
+import { createContext, useContext } from "react"
+
+import { Toggle as TogglePrimitive } from "@base-ui/react/toggle"
+import { ToggleGroup as ToggleGroupPrimitive } from "@base-ui/react/toggle-group"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { Button, type ButtonProps } from "~/components/ui/button"
+import { toggle } from "~/components/ui/toggle"
+import { cn } from "~/lib/utils"
 
 type ToggleGroupState = {
-  orientation?: "horizontal" | "vertical";
-  spacing?: number;
-};
+  orientation?: "horizontal" | "vertical"
+  spacing?: number
+}
 
 type ToggleGroupContextState = VariantProps<typeof toggleGroup> &
-  ToggleGroupState;
+  ToggleGroupState
 
 const ToggleGroupContext = createContext<ToggleGroupContextState>({
   orientation: "horizontal",
   size: "default",
   spacing: 0,
-});
+})
 
 function useToggleGroup() {
-  const context = useContext(ToggleGroupContext);
+  const context = useContext(ToggleGroupContext)
   if (!context) {
-    throw new Error("useToggleGroup must be used within a ToggleGroup.");
+    throw new Error("useToggleGroup must be used within a ToggleGroup.")
   }
-  return context;
+  return context
 }
 
 const toggleGroup = cva("relative inline-flex gap-[2px] rounded-full", {
@@ -69,11 +72,11 @@ const toggleGroup = cva("relative inline-flex gap-[2px] rounded-full", {
       ],
     },
   },
-});
+})
 
 type ToggleGroupProps = ToggleGroupPrimitive.Props &
   VariantProps<typeof toggleGroup> &
-  ToggleGroupState;
+  ToggleGroupState
 
 function ToggleGroup({
   children,
@@ -94,10 +97,10 @@ function ToggleGroup({
         {children}
       </ToggleGroupPrimitive>
     </ToggleGroupContext>
-  );
+  )
 }
 
-type ToggleGroupItemProps = TogglePrimitive.Props & VariantProps<typeof toggle>;
+type ToggleGroupItemProps = TogglePrimitive.Props & VariantProps<typeof toggle>
 
 function ToggleGroupItem({
   variant = "filled",
@@ -124,7 +127,7 @@ function ToggleGroupItem({
       }
       {...props}
     />
-  );
+  )
 }
 
 export {
@@ -133,4 +136,4 @@ export {
   useToggleGroup,
   type ToggleGroupItemProps,
   type ToggleGroupProps,
-};
+}

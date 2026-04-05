@@ -1,39 +1,42 @@
-import { Checkbox } from "@base-ui/react/checkbox";
-import { mergeProps } from "@base-ui/react/merge-props";
-import { Radio } from "@base-ui/react/radio";
-import { RadioGroup } from "@base-ui/react/radio-group";
-import { Separator } from "@base-ui/react/separator";
-import { useRender } from "@base-ui/react/use-render";
-import { cva, type VariantProps } from "class-variance-authority";
-import { createContext, useContext } from "react";
-import { CheckboxIndicator } from "~/components/ui/checkbox";
-import { FocusRing } from "~/components/ui/focus-ring";
-import { RadioIndicator } from "~/components/ui/radio-group";
-import { Ripple } from "~/components/ui/ripple";
-import { cn } from "~/lib/utils";
+"use client"
+import { createContext, useContext } from "react"
+
+import { Checkbox } from "@base-ui/react/checkbox"
+import { mergeProps } from "@base-ui/react/merge-props"
+import { Radio } from "@base-ui/react/radio"
+import { RadioGroup } from "@base-ui/react/radio-group"
+import { Separator } from "@base-ui/react/separator"
+import { useRender } from "@base-ui/react/use-render"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { CheckboxIndicator } from "~/components/ui/checkbox"
+import { FocusRing } from "~/components/ui/focus-ring"
+import { RadioIndicator } from "~/components/ui/radio-group"
+import { Ripple } from "~/components/ui/ripple"
+import { cn } from "~/lib/utils"
 
 type ItemGroupContextState = {
-  align?: "middle" | "top";
-  disabled?: boolean;
-};
+  align?: "middle" | "top"
+  disabled?: boolean
+}
 
-const ItemGroupContext = createContext<ItemGroupContextState | null>(null);
+const ItemGroupContext = createContext<ItemGroupContextState | null>(null)
 
 function useItemGroup() {
-  const context = useContext(ItemGroupContext);
-  return context;
+  const context = useContext(ItemGroupContext)
+  return context
 }
 
 const itemGroup = cva(
   "group/item-group flex flex-col overflow-hidden rounded-[16px] border-none outline-none data-segmented:gap-[2px] data-disabled:pointer-events-none"
-);
+)
 
 type GroupProps = ItemGroupContextState &
   VariantProps<typeof itemGroup> & {
-    segmented?: boolean;
-  };
+    segmented?: boolean
+  }
 
-type ItemGroupProps = useRender.ComponentProps<"div"> & GroupProps;
+type ItemGroupProps = useRender.ComponentProps<"div"> & GroupProps
 
 function ItemGroup({
   align,
@@ -65,10 +68,10 @@ function ItemGroup({
       disabled,
       segmented,
     },
-  });
+  })
 }
 
-type ItemRadioGroupProps = RadioGroup.Props & GroupProps;
+type ItemRadioGroupProps = RadioGroup.Props & GroupProps
 
 function ItemRadioGroup({
   align,
@@ -92,10 +95,10 @@ function ItemRadioGroup({
         {children}
       </RadioGroup>
     </ItemGroupContext>
-  );
+  )
 }
 
-type ItemGroupLabelProps = useRender.ComponentProps<"div">;
+type ItemGroupLabelProps = useRender.ComponentProps<"div">
 
 function ItemGroupLabel({
   children,
@@ -114,7 +117,7 @@ function ItemGroupLabel({
       props
     ),
     state: { slot: "item-group-label" },
-  });
+  })
 }
 
 const item = cva([
@@ -124,9 +127,9 @@ const item = cva([
   "data-checked:rounded-[16px] data-checked:bg-secondary-container data-checked:text-on-surface-variant",
   "data-checked:hover:rounded-[16px] data-checked:focus-visible:rounded-[16px] data-checked:active:rounded-[16px] data-disabled:pointer-events-none",
   "data-disabled:rounded-[4px] data-disabled:bg-on-surface/10 data-checked:data-disabled:rounded-[16px] data-checked:data-disabled:bg-on-surface/38",
-]);
+])
 
-type BaseProps = ItemGroupContextState & VariantProps<typeof item>;
+type BaseProps = ItemGroupContextState & VariantProps<typeof item>
 
 function Base() {
   return (
@@ -134,10 +137,10 @@ function Base() {
       <FocusRing />
       <Ripple />
     </>
-  );
+  )
 }
 
-type ItemProps = useRender.ComponentProps<"span"> & BaseProps;
+type ItemProps = useRender.ComponentProps<"span"> & BaseProps
 
 function Item({
   align: alignProp,
@@ -147,9 +150,9 @@ function Item({
   children,
   ...props
 }: ItemProps) {
-  const group = useItemGroup();
-  const align = alignProp ?? group?.align;
-  const disabled = disabledProp ?? group?.disabled;
+  const group = useItemGroup()
+  const align = alignProp ?? group?.align
+  const disabled = disabledProp ?? group?.disabled
   return useRender({
     defaultTagName: "span",
     render,
@@ -162,7 +165,7 @@ function Item({
       props
     ),
     state: { slot: "item", align, disabled },
-  });
+  })
 }
 
 const itemMedia = cva(
@@ -191,10 +194,10 @@ const itemMedia = cva(
       variant: "icon",
     },
   }
-);
+)
 
 type ItemMediaProps = useRender.ComponentProps<"span"> &
-  VariantProps<typeof itemMedia>;
+  VariantProps<typeof itemMedia>
 
 function ItemMedia({ className, render, variant, ...props }: ItemMediaProps) {
   return useRender({
@@ -207,10 +210,10 @@ function ItemMedia({ className, render, variant, ...props }: ItemMediaProps) {
       props
     ),
     state: { slot: "item-media", variant },
-  });
+  })
 }
 
-type ItemContentProps = useRender.ComponentProps<"span">;
+type ItemContentProps = useRender.ComponentProps<"span">
 
 function ItemContent({ className, render, ...props }: ItemContentProps) {
   return useRender({
@@ -226,10 +229,10 @@ function ItemContent({ className, render, ...props }: ItemContentProps) {
       props
     ),
     state: { slot: "item-content" },
-  });
+  })
 }
 
-type ItemOverlineProps = useRender.ComponentProps<"span">;
+type ItemOverlineProps = useRender.ComponentProps<"span">
 
 function ItemOverline({ className, render, ...props }: ItemOverlineProps) {
   return useRender({
@@ -245,10 +248,10 @@ function ItemOverline({ className, render, ...props }: ItemOverlineProps) {
       props
     ),
     state: { slot: "item-overline" },
-  });
+  })
 }
 
-type ItemTitleProps = useRender.ComponentProps<"span">;
+type ItemTitleProps = useRender.ComponentProps<"span">
 
 function ItemTitle({ className, render, ...props }: ItemTitleProps) {
   return useRender({
@@ -264,10 +267,10 @@ function ItemTitle({ className, render, ...props }: ItemTitleProps) {
       props
     ),
     state: { slot: "item-title" },
-  });
+  })
 }
 
-type ItemDescriptionProps = useRender.ComponentProps<"span">;
+type ItemDescriptionProps = useRender.ComponentProps<"span">
 
 function ItemDescription({
   className,
@@ -287,10 +290,10 @@ function ItemDescription({
       props
     ),
     state: { slot: "item-description" },
-  });
+  })
 }
 
-type ItemActionsProps = useRender.ComponentProps<"span">;
+type ItemActionsProps = useRender.ComponentProps<"span">
 
 function ItemActions({ className, render, ...props }: ItemActionsProps) {
   return useRender({
@@ -306,10 +309,10 @@ function ItemActions({ className, render, ...props }: ItemActionsProps) {
       props
     ),
     state: { slot: "item-actions" },
-  });
+  })
 }
 
-type ItemLinkProps = useRender.ComponentProps<"a"> & BaseProps;
+type ItemLinkProps = useRender.ComponentProps<"a"> & BaseProps
 
 function ItemLink({
   align: alignProp,
@@ -320,9 +323,9 @@ function ItemLink({
   children,
   ...props
 }: ItemLinkProps) {
-  const group = useItemGroup();
-  const align = alignProp ?? group?.align;
-  const disabled = disabledProp ?? group?.disabled;
+  const group = useItemGroup()
+  const align = alignProp ?? group?.align
+  const disabled = disabledProp ?? group?.disabled
 
   return useRender({
     defaultTagName: "a",
@@ -342,10 +345,10 @@ function ItemLink({
       props
     ),
     state: { slot: "item", align, disabled },
-  });
+  })
 }
 
-type ItemRadioProps = Radio.Root.Props & BaseProps;
+type ItemRadioProps = Radio.Root.Props & BaseProps
 
 function ItemRadio({
   align: alignProp,
@@ -353,8 +356,8 @@ function ItemRadio({
   className,
   ...props
 }: ItemRadioProps) {
-  const group = useItemGroup();
-  const align = alignProp ?? group?.align;
+  const group = useItemGroup()
+  const align = alignProp ?? group?.align
 
   return (
     <Radio.Root
@@ -366,16 +369,16 @@ function ItemRadio({
       <Base />
       {children}
     </Radio.Root>
-  );
+  )
 }
 
-type ItemRadioIndicatorProps = Radio.Indicator.Props;
+type ItemRadioIndicatorProps = Radio.Indicator.Props
 
 function ItemRadioIndicator({ ...props }: ItemRadioIndicatorProps) {
-  return <RadioIndicator data-slot="item-radio-indicator" {...props} />;
+  return <RadioIndicator data-slot="item-radio-indicator" {...props} />
 }
 
-type ItemCheckboxProps = Checkbox.Root.Props & BaseProps;
+type ItemCheckboxProps = Checkbox.Root.Props & BaseProps
 
 function ItemCheckbox({
   align: alignProp,
@@ -384,9 +387,9 @@ function ItemCheckbox({
   children,
   ...props
 }: ItemCheckboxProps) {
-  const group = useItemGroup();
-  const align = alignProp ?? group?.align;
-  const disabled = disabledProp ?? group?.disabled;
+  const group = useItemGroup()
+  const align = alignProp ?? group?.align
+  const disabled = disabledProp ?? group?.disabled
   return (
     <Checkbox.Root
       data-slot="item-checkbox"
@@ -398,16 +401,16 @@ function ItemCheckbox({
       <Base />
       {children}
     </Checkbox.Root>
-  );
+  )
 }
 
-type ItemCheckboxIndicatorProps = Checkbox.Indicator.Props;
+type ItemCheckboxIndicatorProps = Checkbox.Indicator.Props
 
 function ItemCheckboxIndicator({ ...props }: ItemCheckboxIndicatorProps) {
-  return <CheckboxIndicator data-slot="item-radio-indicator" {...props} />;
+  return <CheckboxIndicator data-slot="item-radio-indicator" {...props} />
 }
 
-type ItemSeparatorProps = Separator.Props;
+type ItemSeparatorProps = Separator.Props
 
 function ItemSeparator({ className, ...props }: ItemSeparatorProps) {
   return (
@@ -415,7 +418,7 @@ function ItemSeparator({ className, ...props }: ItemSeparatorProps) {
       className={cn("h-px bg-outline-variant px-[16px]", className)}
       {...props}
     />
-  );
+  )
 }
 
 export {
@@ -434,4 +437,4 @@ export {
   ItemRadioGroup,
   ItemRadioIndicator,
   ItemTitle,
-};
+}

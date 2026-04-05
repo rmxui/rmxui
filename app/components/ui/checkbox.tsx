@@ -1,10 +1,12 @@
-import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";
-import { CheckboxGroup as CheckboxGroupPrimitive } from "@base-ui/react/checkbox-group";
-import { FocusRing } from "~/components/ui/focus-ring";
-import { Ripple } from "~/components/ui/ripple";
-import { cn } from "~/lib/utils";
+"use client"
+import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox"
+import { CheckboxGroup as CheckboxGroupPrimitive } from "@base-ui/react/checkbox-group"
 
-type CheckboxProps = CheckboxPrimitive.Root.Props;
+import { FocusRing } from "~/components/ui/focus-ring"
+import { Ripple } from "~/components/ui/ripple"
+import { cn } from "~/lib/utils"
+
+type CheckboxProps = CheckboxPrimitive.Root.Props
 
 function Checkbox({ className, ...props }: CheckboxProps) {
   return (
@@ -21,10 +23,10 @@ function Checkbox({ className, ...props }: CheckboxProps) {
       <Ripple />
       <CheckboxIndicator />
     </CheckboxPrimitive.Root>
-  );
+  )
 }
 
-type CheckboxIndicatorProps = CheckboxPrimitive.Indicator.Props;
+type CheckboxIndicatorProps = CheckboxPrimitive.Indicator.Props
 
 function CheckboxIndicator({ className, ...props }: CheckboxIndicatorProps) {
   return (
@@ -41,13 +43,13 @@ function CheckboxIndicator({ className, ...props }: CheckboxIndicatorProps) {
       )}
       {...props}
     />
-  );
+  )
 }
 
-type CheckboxGroupProps = CheckboxGroupPrimitive.Props;
+type CheckboxGroupProps = CheckboxGroupPrimitive.Props
 
 function CheckboxGroup({ ...props }: CheckboxGroupProps) {
-  return <CheckboxGroupPrimitive data-slot="checkbox-group" {...props} />;
+  return <CheckboxGroupPrimitive data-slot="checkbox-group" {...props} />
 }
 
 function CheckedIcon({ ...props }: React.ComponentProps<"svg">) {
@@ -61,7 +63,7 @@ function CheckedIcon({ ...props }: React.ComponentProps<"svg">) {
     >
       <path d="m424-312 282-282-56-56-226 226-114-114-56 56 170 170ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Z" />
     </svg>
-  );
+  )
 }
 
 function UncheckedIcon({ ...props }: React.ComponentProps<"svg">) {
@@ -75,7 +77,7 @@ function UncheckedIcon({ ...props }: React.ComponentProps<"svg">) {
     >
       <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Z" />
     </svg>
-  );
+  )
 }
 
 function IndeterminateIcon({ ...props }: React.ComponentProps<"svg">) {
@@ -89,7 +91,7 @@ function IndeterminateIcon({ ...props }: React.ComponentProps<"svg">) {
     >
       <path d="M280-440h400v-80H280v80Zm-80 320q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Z" />
     </svg>
-  );
+  )
 }
 
 export {
@@ -99,4 +101,4 @@ export {
   type CheckboxGroupProps,
   type CheckboxIndicatorProps,
   type CheckboxProps,
-};
+}

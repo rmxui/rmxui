@@ -1,12 +1,15 @@
-import { Button as ButtonPrimitive } from "@base-ui/react/button";
-import { cva, type VariantProps } from "class-variance-authority";
-import { useEffect, useRef, useState } from "react";
-import { Elevation } from "~/components/ui/elevation";
-import { FocusRing } from "~/components/ui/focus-ring";
-import { Outline } from "~/components/ui/outline";
-import { Ripple } from "~/components/ui/ripple";
-import { cn, getCssDimensions } from "~/lib/utils";
-import { useButtonGroup } from "./button-group";
+"use client"
+import { useEffect, useRef, useState } from "react"
+
+import { Button as ButtonPrimitive } from "@base-ui/react/button"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { useButtonGroup } from "~/components/ui/button-group"
+import { Elevation } from "~/components/ui/elevation"
+import { FocusRing } from "~/components/ui/focus-ring"
+import { Outline } from "~/components/ui/outline"
+import { Ripple } from "~/components/ui/ripple"
+import { cn, getCssDimensions } from "~/lib/utils"
 
 const button = cva(
   [
@@ -145,9 +148,9 @@ const button = cva(
       width: "default",
     },
   }
-);
+)
 
-type ButtonProps = ButtonPrimitive.Props & VariantProps<typeof button>;
+type ButtonProps = ButtonPrimitive.Props & VariantProps<typeof button>
 
 function Button({
   children,
@@ -159,18 +162,18 @@ function Button({
   width = "default",
   ...props
 }: ButtonProps) {
-  const buttonGroup = useButtonGroup();
-  const buttonRef = useRef<HTMLElement>(null);
-  const [style, setStyle] = useState(styleProp);
+  const buttonGroup = useButtonGroup()
+  const buttonRef = useRef<HTMLElement>(null)
+  const [style, setStyle] = useState(styleProp)
 
   useEffect(() => {
     if (buttonRef.current) {
-      const { width } = getCssDimensions(buttonRef.current);
+      const { width } = getCssDimensions(buttonRef.current)
       if (width > 0) {
-        setStyle({ ...style, ["--button-width" as string]: `${width}px` });
+        setStyle({ ...style, ["--button-width" as string]: `${width}px` })
       }
     }
-  }, []);
+  }, [])
 
   return (
     <ButtonPrimitive
@@ -200,7 +203,7 @@ function Button({
       <Ripple />
       {children}
     </ButtonPrimitive>
-  );
+  )
 }
 
-export { Button, button, type ButtonProps };
+export { Button, button, type ButtonProps }

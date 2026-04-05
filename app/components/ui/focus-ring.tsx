@@ -1,4 +1,5 @@
-import { cn } from "~/lib/utils";
+"use client"
+import { cn } from "~/lib/utils"
 
 export function FocusRing({ className }: React.ComponentProps<"span">) {
   return (
@@ -10,5 +11,5 @@ export function FocusRing({ className }: React.ComponentProps<"span">) {
         className
       )}
     />
-  );
+  )
 }

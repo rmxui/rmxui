@@ -1,11 +1,13 @@
-import { mergeProps } from "@base-ui/react/merge-props";
-import { useRender } from "@base-ui/react/use-render";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "~/lib/utils";
-import { Elevation } from "./elevation";
-import { FocusRing } from "./focus-ring";
-import { Outline } from "./outline";
-import { Ripple } from "./ripple";
+"use client"
+import { mergeProps } from "@base-ui/react/merge-props"
+import { useRender } from "@base-ui/react/use-render"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { Elevation } from "~/components/ui/elevation"
+import { FocusRing } from "~/components/ui/focus-ring"
+import { Outline } from "~/components/ui/outline"
+import { Ripple } from "~/components/ui/ripple"
+import { cn } from "~/lib/utils"
 
 const card = cva(
   "group/card relative inline-flex w-full rounded-[12px] focus-visible:*:data-[slot=focus-ring]:outline-solid *:[svg]:size-[24px] *:[svg]:text-primary",
@@ -54,12 +56,12 @@ const card = cva(
       orientation: "vertical",
     },
   }
-);
+)
 
 type CardProps = useRender.ComponentProps<"div"> &
   VariantProps<typeof card> & {
-    disabled?: boolean;
-  };
+    disabled?: boolean
+  }
 
 function Card({
   actionable,
@@ -72,7 +74,7 @@ function Card({
   variant = "elevated",
   ...props
 }: CardProps) {
-  const disabled = actionable && disabledProp;
+  const disabled = actionable && disabledProp
   return useRender({
     defaultTagName: "div",
     render,
@@ -100,7 +102,7 @@ function Card({
       orientation,
       variant,
     },
-  });
+  })
 }
 
 // header includes: image
@@ -116,7 +118,7 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
       )}
       {...props}
     />
-  );
+  )
 }
 
 // headline
@@ -130,7 +132,7 @@ function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
       )}
       {...props}
     />
-  );
+  )
 }
 
 // subhead
@@ -144,7 +146,7 @@ function CardSubtitle({ className, ...props }: React.ComponentProps<"div">) {
       )}
       {...props}
     />
-  );
+  )
 }
 
 // supporting text
@@ -158,7 +160,7 @@ function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
       )}
       {...props}
     />
-  );
+  )
 }
 
 function CardAction({ className, ...props }: React.ComponentProps<"div">) {
@@ -173,7 +175,7 @@ function CardAction({ className, ...props }: React.ComponentProps<"div">) {
       )}
       {...props}
     />
-  );
+  )
 }
 
 // content includes: title, subtitle, description
@@ -187,12 +189,12 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
       )}
       {...props}
     />
-  );
+  )
 }
 
 type CardFooterProps = React.ComponentProps<"div"> & {
-  align?: "start" | "center" | "end";
-};
+  align?: "start" | "center" | "end"
+}
 // actions
 function CardFooter({ align = "end", className, ...props }: CardFooterProps) {
   return (
@@ -205,12 +207,12 @@ function CardFooter({ align = "end", className, ...props }: CardFooterProps) {
       )}
       {...props}
     />
-  );
+  )
 }
 
 type CardMediaProps = React.ComponentProps<"div"> & {
-  variant?: "video" | "square";
-};
+  variant?: "video" | "square"
+}
 
 function CardMedia({ className, variant, ...props }: CardMediaProps) {
   return (
@@ -223,7 +225,7 @@ function CardMedia({ className, variant, ...props }: CardMediaProps) {
       )}
       {...props}
     />
-  );
+  )
 }
 
 export {
@@ -236,4 +238,4 @@ export {
   CardMedia,
   CardSubtitle,
   CardTitle,
-};
+}

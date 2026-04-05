@@ -3,7 +3,7 @@ import {
   index,
   layout,
   route,
-} from "@react-router/dev/routes";
+} from "@react-router/dev/routes"
 
 export const routes = [
   "badge",
@@ -17,11 +17,11 @@ export const routes = [
   "radio",
   "toggle",
   "toggle-group",
-];
+]
 
 export default [
   layout("routes/_layout.tsx", [
     index("routes/_index.tsx"),
     ...routes.map((value) => route(value, `routes/${value}.tsx`)),
   ]),
-] satisfies RouteConfig;
+] satisfies RouteConfig

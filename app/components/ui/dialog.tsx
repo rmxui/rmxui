@@ -1,29 +1,31 @@
-import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
-import { Elevation } from "~/components/ui/elevation";
-import { cn } from "~/lib/utils";
+"use client"
+import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
+
+import { Elevation } from "~/components/ui/elevation"
+import { cn } from "~/lib/utils"
 
 function Dialog({ ...props }: DialogPrimitive.Root.Props) {
-  return <DialogPrimitive.Root data-slot="dialog" {...props} />;
+  return <DialogPrimitive.Root data-slot="dialog" {...props} />
 }
 
-Dialog.createHandle = DialogPrimitive.createHandle;
+Dialog.createHandle = DialogPrimitive.createHandle
 
 function DialogTrigger({ ...props }: DialogPrimitive.Trigger.Props) {
-  return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
+  return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
 }
 
 function DialogPortal({ ...props }: DialogPrimitive.Portal.Props) {
-  return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />;
+  return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
 }
 
-type DialogViewportProps = DialogPrimitive.Viewport.Props;
+type DialogViewportProps = DialogPrimitive.Viewport.Props
 
 function DialogViewport({ ...props }: DialogViewportProps) {
-  return <DialogPrimitive.Viewport data-slot="dialog-viewport" {...props} />;
+  return <DialogPrimitive.Viewport data-slot="dialog-viewport" {...props} />
 }
 
 function DialogClose({ ...props }: DialogPrimitive.Close.Props) {
-  return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;
+  return <DialogPrimitive.Close data-slot="dialog-close" {...props} />
 }
 
 function DialogBackdrop({
@@ -42,12 +44,12 @@ function DialogBackdrop({
       )}
       {...props}
     />
-  );
+  )
 }
 
 type DialogContentProps = DialogPrimitive.Popup.Props & {
-  full?: boolean;
-};
+  full?: boolean
+}
 
 function DialogContent({
   className,
@@ -81,12 +83,12 @@ function DialogContent({
         </DialogPrimitive.Popup>
       </DialogViewport>
     </DialogPortal>
-  );
+  )
 }
 
 type DialogHeaderProps = React.ComponentProps<"div"> & {
-  orientation?: "vertical" | "horizontal";
-};
+  orientation?: "vertical" | "horizontal"
+}
 function DialogHeader({ className, ...props }: DialogHeaderProps) {
   return (
     <div
@@ -99,7 +101,7 @@ function DialogHeader({ className, ...props }: DialogHeaderProps) {
       )}
       {...props}
     />
-  );
+  )
 }
 
 function DialogFooter({
@@ -115,7 +117,7 @@ function DialogFooter({
     >
       {children}
     </div>
-  );
+  )
 }
 
 function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
@@ -128,7 +130,7 @@ function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
       )}
       {...props}
     />
-  );
+  )
 }
 
 function DialogDescription({
@@ -144,7 +146,7 @@ function DialogDescription({
       )}
       {...props}
     />
-  );
+  )
 }
 
 export {
@@ -159,4 +161,4 @@ export {
   DialogTitle,
   DialogTrigger,
   DialogViewport,
-};
+}

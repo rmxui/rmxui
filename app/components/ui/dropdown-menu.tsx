@@ -1,52 +1,55 @@
-import { Menu as MenuPrimitive } from "@base-ui/react/menu";
-import { cva, type VariantProps } from "class-variance-authority";
-import { createContext, useContext } from "react";
-import { Elevation } from "~/components/ui/elevation";
-import { FocusRing } from "~/components/ui/focus-ring";
-import { Ripple } from "~/components/ui/ripple";
-import { cn } from "~/lib/utils";
+"use client"
+import { createContext, useContext } from "react"
+
+import { Menu as MenuPrimitive } from "@base-ui/react/menu"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { Elevation } from "~/components/ui/elevation"
+import { FocusRing } from "~/components/ui/focus-ring"
+import { Ripple } from "~/components/ui/ripple"
+import { cn } from "~/lib/utils"
 
 type DropdownMenuContextState = {
-  variant?: "default" | "vibrant" | null;
-};
+  variant?: "default" | "vibrant" | null
+}
 const DropdownMenuContext = createContext<DropdownMenuContextState>({
   variant: "default",
-});
+})
 
 function useDropdownMenu() {
-  const context = useContext(DropdownMenuContext);
-  return context;
+  const context = useContext(DropdownMenuContext)
+  return context
 }
 
-type DropdownMenuProps = MenuPrimitive.Root.Props & DropdownMenuContextState;
+type DropdownMenuProps = MenuPrimitive.Root.Props & DropdownMenuContextState
 
 function DropdownMenu({ variant = "default", ...props }: DropdownMenuProps) {
   return (
     <DropdownMenuContext value={{ variant }}>
       <MenuPrimitive.Root data-slot="dropdown-menu" {...props} />
     </DropdownMenuContext>
-  );
+  )
 }
 
 function DropdownMenuPortal({ ...props }: MenuPrimitive.Portal.Props) {
-  return <MenuPrimitive.Portal data-slot="dropdown-menu-portal" {...props} />;
+  return <MenuPrimitive.Portal data-slot="dropdown-menu-portal" {...props} />
 }
 
 function DropdownMenuTrigger({ ...props }: MenuPrimitive.Trigger.Props) {
-  return <MenuPrimitive.Trigger data-slot="dropdown-menu-trigger" {...props} />;
+  return <MenuPrimitive.Trigger data-slot="dropdown-menu-trigger" {...props} />
 }
 
 function DropdownMenuViewport({ ...props }: MenuPrimitive.Viewport.Props) {
   return (
     <MenuPrimitive.Viewport data-slot="dropdown-menu-viewport" {...props} />
-  );
+  )
 }
 
 type DropdownMenuContentProps = MenuPrimitive.Popup.Props &
   Pick<
     MenuPrimitive.Positioner.Props,
     "align" | "alignOffset" | "side" | "sideOffset"
-  >;
+  >
 
 function DropdownMenuContent({
   align = "start",
@@ -82,7 +85,7 @@ function DropdownMenuContent({
         </MenuPrimitive.Popup>
       </MenuPrimitive.Positioner>
     </MenuPrimitive.Portal>
-  );
+  )
 }
 
 const dropdownMenuGroup = cva(
@@ -98,16 +101,16 @@ const dropdownMenuGroup = cva(
       variant: "vibrant",
     },
   }
-);
+)
 
-type DropdownMenuGroupProps = MenuPrimitive.Group.Props;
+type DropdownMenuGroupProps = MenuPrimitive.Group.Props
 
 function DropdownMenuGroup({
   children,
   className,
   ...props
 }: DropdownMenuGroupProps) {
-  const { variant } = useDropdownMenu();
+  const { variant } = useDropdownMenu()
   return (
     <MenuPrimitive.Group
       data-slot="dropdown-menu-group"
@@ -117,7 +120,7 @@ function DropdownMenuGroup({
       <Elevation />
       <div className="flex flex-col gap-[4px]">{children}</div>
     </MenuPrimitive.Group>
-  );
+  )
 }
 
 function DropdownMenuLabel({
@@ -125,9 +128,9 @@ function DropdownMenuLabel({
   inset,
   ...props
 }: MenuPrimitive.GroupLabel.Props & {
-  inset?: boolean;
+  inset?: boolean
 }) {
-  const { variant } = useDropdownMenu();
+  const { variant } = useDropdownMenu()
   return (
     <MenuPrimitive.GroupLabel
       data-slot="dropdown-menu-label"
@@ -140,7 +143,7 @@ function DropdownMenuLabel({
       )}
       {...props}
     />
-  );
+  )
 }
 
 const dropdownMenuItem = cva(
@@ -168,7 +171,7 @@ const dropdownMenuItem = cva(
       variant: "vibrant",
     },
   }
-);
+)
 
 function DropdownMenuItem({
   children,
@@ -178,10 +181,10 @@ function DropdownMenuItem({
   ...props
 }: MenuPrimitive.Item.Props &
   VariantProps<typeof dropdownMenuItem> & {
-    inset?: boolean;
+    inset?: boolean
   }) {
-  const menu = useDropdownMenu();
-  const variant = variantProp ?? menu.variant;
+  const menu = useDropdownMenu()
+  const variant = variantProp ?? menu.variant
   return (
     <MenuPrimitive.Item
       data-slot="dropdown-menu-item"
@@ -194,7 +197,7 @@ function DropdownMenuItem({
       <Ripple />
       {children}
     </MenuPrimitive.Item>
-  );
+  )
 }
 
 function DropdownMenuLinkItem({
@@ -205,10 +208,10 @@ function DropdownMenuLinkItem({
   ...props
 }: MenuPrimitive.LinkItem.Props &
   VariantProps<typeof dropdownMenuItem> & {
-    inset?: boolean;
+    inset?: boolean
   }) {
-  const menu = useDropdownMenu();
-  const variant = variantProp ?? menu.variant;
+  const menu = useDropdownMenu()
+  const variant = variantProp ?? menu.variant
   return (
     <MenuPrimitive.LinkItem
       data-slot="dropdown-menu-item"
@@ -221,11 +224,11 @@ function DropdownMenuLinkItem({
       <Ripple />
       {children}
     </MenuPrimitive.LinkItem>
-  );
+  )
 }
 
 function DropdownMenuSub({ ...props }: MenuPrimitive.SubmenuRoot.Props) {
-  return <MenuPrimitive.SubmenuRoot data-slot="dropdown-menu-sub" {...props} />;
+  return <MenuPrimitive.SubmenuRoot data-slot="dropdown-menu-sub" {...props} />
 }
 
 function DropdownMenuSubTrigger({
@@ -234,9 +237,9 @@ function DropdownMenuSubTrigger({
   children,
   ...props
 }: MenuPrimitive.SubmenuTrigger.Props & {
-  inset?: boolean;
+  inset?: boolean
 }) {
-  const { variant } = useDropdownMenu();
+  const { variant } = useDropdownMenu()
   return (
     <MenuPrimitive.SubmenuTrigger
       data-slot="dropdown-menu-sub-trigger"
@@ -253,7 +256,7 @@ function DropdownMenuSubTrigger({
       {children}
       <ArrowRightIcon className="ms-auto size-[20px]" />
     </MenuPrimitive.SubmenuTrigger>
-  );
+  )
 }
 
 function DropdownMenuSubContent({
@@ -279,7 +282,7 @@ function DropdownMenuSubContent({
       sideOffset={sideOffset}
       {...props}
     />
-  );
+  )
 }
 
 function DropdownMenuCheckboxItem({
@@ -289,9 +292,9 @@ function DropdownMenuCheckboxItem({
   inset,
   ...props
 }: MenuPrimitive.CheckboxItem.Props & {
-  inset?: boolean;
+  inset?: boolean
 }) {
-  const { variant } = useDropdownMenu();
+  const { variant } = useDropdownMenu()
   return (
     <MenuPrimitive.CheckboxItem
       data-slot="dropdown-menu-checkbox-item"
@@ -307,7 +310,7 @@ function DropdownMenuCheckboxItem({
       </MenuPrimitive.CheckboxItemIndicator>
       {children}
     </MenuPrimitive.CheckboxItem>
-  );
+  )
 }
 
 function DropdownMenuRadioGroup({ ...props }: MenuPrimitive.RadioGroup.Props) {
@@ -317,7 +320,7 @@ function DropdownMenuRadioGroup({ ...props }: MenuPrimitive.RadioGroup.Props) {
       className="flex flex-col gap-[2px]"
       {...props}
     />
-  );
+  )
 }
 
 function DropdownMenuRadioItem({
@@ -326,9 +329,9 @@ function DropdownMenuRadioItem({
   inset,
   ...props
 }: MenuPrimitive.RadioItem.Props & {
-  inset?: boolean;
+  inset?: boolean
 }) {
-  const { variant } = useDropdownMenu();
+  const { variant } = useDropdownMenu()
   return (
     <MenuPrimitive.RadioItem
       data-slot="dropdown-menu-radio-item"
@@ -343,14 +346,14 @@ function DropdownMenuRadioItem({
       </MenuPrimitive.RadioItemIndicator>
       {children}
     </MenuPrimitive.RadioItem>
-  );
+  )
 }
 
 function DropdownMenuSeparator({
   className,
   ...props
 }: MenuPrimitive.Separator.Props) {
-  const { variant } = useDropdownMenu();
+  const { variant } = useDropdownMenu()
   return (
     <div className="px-[8px]">
       <MenuPrimitive.Separator
@@ -364,14 +367,14 @@ function DropdownMenuSeparator({
         {...props}
       />
     </div>
-  );
+  )
 }
 
 function DropdownMenuShortcut({
   className,
   ...props
 }: React.ComponentProps<"span">) {
-  const { variant } = useDropdownMenu();
+  const { variant } = useDropdownMenu()
   return (
     <span
       data-slot="dropdown-menu-shortcut"
@@ -385,7 +388,7 @@ function DropdownMenuShortcut({
       )}
       {...props}
     />
-  );
+  )
 }
 
 function ArrowRightIcon({ ...props }: React.ComponentProps<"svg">) {
@@ -399,7 +402,7 @@ function ArrowRightIcon({ ...props }: React.ComponentProps<"svg">) {
     >
       <path d="M400-280v-400l200 200-200 200Z" />
     </svg>
-  );
+  )
 }
 function CheckIcon({ ...props }: React.ComponentProps<"svg">) {
   return (
@@ -412,7 +415,7 @@ function CheckIcon({ ...props }: React.ComponentProps<"svg">) {
     >
       <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
     </svg>
-  );
+  )
 }
 
 export {
@@ -433,4 +436,4 @@ export {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   DropdownMenuViewport,
-};
+}

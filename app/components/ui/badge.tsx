@@ -1,11 +1,14 @@
-import { mergeProps } from "@base-ui/react/merge-props";
-import { useRender } from "@base-ui/react/use-render";
-import { cva, type VariantProps } from "class-variance-authority";
-import { Children } from "react";
-import { Elevation } from "~/components/ui/elevation";
-import { Outline } from "~/components/ui/outline";
-import { Ripple } from "~/components/ui/ripple";
-import { cn } from "~/lib/utils";
+"use client"
+import { Children } from "react"
+
+import { mergeProps } from "@base-ui/react/merge-props"
+import { useRender } from "@base-ui/react/use-render"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { Elevation } from "~/components/ui/elevation"
+import { Outline } from "~/components/ui/outline"
+import { Ripple } from "~/components/ui/ripple"
+import { cn } from "~/lib/utils"
 
 const badgeVariants = cva(
   "group/badge relative flex shrink-0 flex-col items-center justify-center rounded-full border-none text-[10px]/[16px] font-[500] tracking-[0.5px] outline-none",
@@ -42,12 +45,12 @@ const badgeVariants = cva(
       size: "lg",
     },
   }
-);
+)
 
 type BadgeProps = useRender.ComponentProps<"span"> &
   VariantProps<typeof badgeVariants> & {
-    value?: string;
-  };
+    value?: string
+  }
 
 function Badge({
   children,
@@ -76,10 +79,10 @@ function Badge({
       props
     ),
     state: { slot: "badge", variant },
-  });
+  })
 }
 
-type BadgeTextProps = useRender.ComponentProps<"span">;
+type BadgeTextProps = useRender.ComponentProps<"span">
 
 function BadgeText({ children, className, render, ...props }: BadgeTextProps) {
   return useRender({
@@ -97,7 +100,7 @@ function BadgeText({ children, className, render, ...props }: BadgeTextProps) {
       props
     ),
     state: { slot: "badge-text" },
-  });
+  })
 }
 
 function isSingleDigit(children: React.ReactNode) {
@@ -105,7 +108,7 @@ function isSingleDigit(children: React.ReactNode) {
     Children.count(children) === 1 &&
     typeof children === "string" &&
     children.length === 1
-  );
+  )
 }
 
-export { Badge, BadgeText, badgeVariants, type BadgeProps };
+export { Badge, BadgeText, badgeVariants, type BadgeProps }
