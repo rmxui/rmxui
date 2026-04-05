@@ -12,7 +12,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { CheckboxIndicator } from "~/components/ui/checkbox"
 import { FocusRing } from "~/components/ui/focus-ring"
 import { RadioIndicator } from "~/components/ui/radio-group"
-import { Ripple } from "~/components/ui/ripple"
+import { StateLayer } from "~/components/ui/state-layer"
 import { cn } from "~/lib/utils"
 
 type ItemGroupContextState = {
@@ -121,7 +121,7 @@ function ItemGroupLabel({
 }
 
 const item = cva([
-  "group/item relative flex items-center gap-[12px] rounded-[4px] border-none ripple-on-surface bg-surface px-[16px] py-[10px] outline-none",
+  "group/item state-layer-on-surface relative flex items-center gap-[12px] rounded-[4px] border-none bg-surface px-[16px] py-[10px] outline-none",
   "group-data-[align=top]/item-group:items-start hover:rounded-[12px] focus-visible:rounded-[16px] active:rounded-[16px]",
   "focus-visible:*:data-[slot=focus-ring]:-outline-offset-3 focus-visible:*:data-[slot=focus-ring]:outline-solid",
   "data-checked:rounded-[16px] data-checked:bg-secondary-container data-checked:text-on-surface-variant",
@@ -135,7 +135,7 @@ function Base() {
   return (
     <>
       <FocusRing />
-      <Ripple />
+      <StateLayer />
     </>
   )
 }

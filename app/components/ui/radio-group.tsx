@@ -5,7 +5,7 @@ import { RadioGroup as RadioGroupPrimitive } from "@base-ui/react/radio-group"
 import { useRender } from "@base-ui/react/use-render"
 
 import { FocusRing } from "~/components/ui/focus-ring"
-import { Ripple } from "~/components/ui/ripple"
+import { StateLayer } from "~/components/ui/state-layer"
 import { cn } from "~/lib/utils"
 
 function RadioGroup({ className, ...props }: RadioGroupPrimitive.Props) {
@@ -28,7 +28,7 @@ function Radio({
     <RadioPrimitive.Root
       data-slot="radio"
       className={cn(
-        "relative flex size-[40px] items-center justify-center rounded-full border-none outline-none focus-visible:*:data-[slot=focus-ring]:outline-solid data-checked:ripple-primary data-unchecked:ripple-on-surface data-disabled:pointer-events-none",
+        "data-checked:state-layer-primary data-unchecked:state-layer-on-surface relative flex size-[40px] items-center justify-center rounded-full border-none outline-none focus-visible:*:data-[slot=focus-ring]:outline-solid data-disabled:pointer-events-none",
         className
       )}
       render={(rootProps, rootState) =>
@@ -40,7 +40,7 @@ function Radio({
               children: (
                 <>
                   <FocusRing />
-                  <Ripple />
+                  <StateLayer />
                   <RadioIndicator />
                 </>
               ),

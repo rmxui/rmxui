@@ -96,7 +96,7 @@ function DialogHeader({ className, ...props }: DialogHeaderProps) {
       className={cn(
         "flex group-not-data-full/content:flex-col",
         "group-data-full/content:items-center group-data-full/content:gap-[8px] group-data-full/content:px-[8px]",
-        "group-data-full/content:*:data-[slot=dialog-close]:first:not-last:ripple-on-surface group-data-full/content:*:data-[slot=dialog-close]:first:not-last:text-on-surface group-data-full/content:*:[button]:last:not-first:ms-auto",
+        "group-data-full/content:*:data-[slot=dialog-close]:first:not-last:state-layer-on-surface group-data-full/content:*:data-[slot=dialog-close]:first:not-last:text-on-surface group-data-full/content:*:[button]:last:not-first:ms-auto",
         className
       )}
       {...props}

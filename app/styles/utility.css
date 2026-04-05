@@ -1,7 +1,7 @@
-@utility ripple-* {
+@utility state-layer-* {
   label:focus-visible & {
     :is(&:not([data-disabled]) > *) {
-      &[data-slot="ripple"] {
+      &[data-slot="state-layer"] {
         &::before {
           background-color: --value(--color-*);
           opacity: 0.1;
@@ -13,7 +13,7 @@
   label:hover & {
     @media (hover: hover) {
       :is(&:not([data-disabled]) > *) {
-        &[data-slot="ripple"] {
+        &[data-slot="state-layer"] {
           &::before {
             background-color: --value(--color- *);
             opacity: 0.08;
@@ -25,7 +25,7 @@
 
   label:active & {
     :is(&:not([data-disabled]) > *) {
-      &[data-slot="ripple"] {
+      &[data-slot="state-layer"] {
         &::after {
           background-color: --value(--color-*);
           opacity: 0.1;
@@ -38,7 +38,7 @@
   &:focus-visible {
     :is(& > *),
     :is(& > [data-slot$="indicator"] > *) {
-      &[data-slot="ripple"] {
+      &[data-slot="state-layer"] {
         &::before {
           background-color: --value(--color-*);
           opacity: 0.1;
@@ -51,7 +51,7 @@
     @media (hover: hover) {
       :is(& > *),
       :is(& > [data-slot$="indicator"] > *) {
-        &[data-slot="ripple"] {
+        &[data-slot="state-layer"] {
           &::before {
             background-color: --value(--color- *);
             opacity: 0.08;
@@ -64,7 +64,7 @@
   &:active {
     :is(& > *),
     :is(& > [data-slot$="indicator"] > *) {
-      &[data-slot="ripple"] {
+      &[data-slot="state-layer"] {
         &::after {
           background-color: --value(--color-*);
           opacity: 0.1;
@@ -74,6 +74,7 @@
     }
   }
 }
+
 @utility elevation-* {
   --rm-elevation-level: --value(integer);
   --rm-elevation-duration: 105ms;

@@ -1,9 +1,9 @@
-import { useMemo, useState } from "react";
-import { NavLink } from "react-router";
-import { type ButtonProps } from "~/components/ui/button";
-import { Text } from "~/components/ui/text";
-import { Toggle } from "~/components/ui/toggle";
-import { cn } from "~/lib/utils";
+import { useMemo, useState } from "react"
+import { NavLink } from "react-router"
+import { type ButtonProps } from "~/components/ui/button"
+import { Text } from "~/components/ui/text"
+import { Toggle } from "~/components/ui/toggle"
+import { cn } from "~/lib/utils"
 
 const variants: ButtonProps["variant"][] = [
   "elevated",
@@ -16,19 +16,19 @@ const variants: ButtonProps["variant"][] = [
   "standard",
   "ghost",
   "destructive",
-];
-const disabledStates: boolean[] = [false, true];
+]
+const disabledStates: boolean[] = [false, true]
 
 export default function ToggleRoute() {
-  const [type, setType] = useState("default");
-  const [shape, setShape] = useState<ButtonProps["shape"]>("round");
+  const [type, setType] = useState("default")
+  const [shape, setShape] = useState<ButtonProps["shape"]>("round")
 
   const sizes: ButtonProps["size"][] = useMemo(() => {
     if (type === "icon") {
-      return ["icon-xs", "icon-sm", "icon", "icon-md", "icon-lg", "icon-xl"];
+      return ["icon-xs", "icon-sm", "icon", "icon-md", "icon-lg", "icon-xl"]
     }
-    return ["xs", "sm", "md", "lg", "xl"];
-  }, [type]);
+    return ["xs", "sm", "md", "lg", "xl"]
+  }, [type])
 
   return (
     <div className="flex flex-col gap-4">
@@ -76,7 +76,9 @@ export default function ToggleRoute() {
                     disabled={disabled}
                     className="w-fit"
                     nativeButton={false}
-                    render={<NavLink to="." />}
+                    render={
+                      <NavLink to="." onClick={(e) => e.preventDefault()} />
+                    }
                   >
                     <PencilIcon />
                     <Text
@@ -113,7 +115,7 @@ export default function ToggleRoute() {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
 function PencilIcon({ ...props }: React.ComponentProps<"svg">) {
@@ -127,5 +129,5 @@ function PencilIcon({ ...props }: React.ComponentProps<"svg">) {
     >
       <path d="M120-120v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm584-528 56-56-56-56-56 56 56 56Z" />
     </svg>
-  );
+  )
 }

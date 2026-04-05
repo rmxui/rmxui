@@ -6,7 +6,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { Elevation } from "~/components/ui/elevation"
 import { FocusRing } from "~/components/ui/focus-ring"
 import { Outline } from "~/components/ui/outline"
-import { Ripple } from "~/components/ui/ripple"
+import { StateLayer } from "~/components/ui/state-layer"
 import { cn } from "~/lib/utils"
 
 const card = cva(
@@ -35,19 +35,19 @@ const card = cva(
       {
         actionable: true,
         variant: "elevated",
-        class: "ripple-on-surface elevation-1/2",
+        class: "state-layer-on-surface elevation-1/2",
       },
       { actionable: false, variant: "filled", class: "elevation-0" },
       {
         actionable: true,
         variant: "filled",
-        class: "ripple-on-surface elevation-0/1",
+        class: "state-layer-on-surface elevation-0/1",
       },
       { actionable: false, variant: "outlined", class: "elevation-0" },
       {
         actionable: true,
         variant: "outlined",
-        class: "ripple-on-surface elevation-0/1",
+        class: "state-layer-on-surface elevation-0/1",
       },
     ],
     defaultVariants: {
@@ -88,7 +88,7 @@ function Card({
             <FocusRing />
             {(!actionable || !disabled) && <Elevation />}
             {variant === "outlined" && <Outline />}
-            {!disabled && <Ripple />}
+            {!disabled && <StateLayer />}
             {children}
           </>
         ),

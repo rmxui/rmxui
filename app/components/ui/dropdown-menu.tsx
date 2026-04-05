@@ -6,7 +6,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { Elevation } from "~/components/ui/elevation"
 import { FocusRing } from "~/components/ui/focus-ring"
-import { Ripple } from "~/components/ui/ripple"
+import { StateLayer } from "~/components/ui/state-layer"
 import { cn } from "~/lib/utils"
 
 type DropdownMenuContextState = {
@@ -156,15 +156,15 @@ const dropdownMenuItem = cva(
     variants: {
       variant: {
         default: [
-          "ripple-on-surface text-on-surface data-checked:ripple-on-tertiary-container data-checked:bg-tertiary-container data-checked:text-on-tertiary-container",
+          "state-layer-on-surface data-checked:state-layer-on-tertiary-container text-on-surface data-checked:bg-tertiary-container data-checked:text-on-tertiary-container",
           "*:[svg]:text-on-surface-variant data-checked:*:[svg]:text-on-tertiary-container data-checked:hover:*:data-[slot$=indicator]:*:[svg]:text-on-tertiary-container",
         ],
         vibrant: [
-          "ripple-on-tertiary-container text-on-tertiary-container data-checked:ripple-on-tertiary data-checked:bg-tertiary data-checked:text-on-tertiary",
+          "state-layer-on-tertiary-container data-checked:state-layer-on-tertiary text-on-tertiary-container data-checked:bg-tertiary data-checked:text-on-tertiary",
           "*:[svg]:text-on-tertiary-container data-checked:*:[svg]:text-on-tertiary data-checked:hover:*:data-[slot$=indicator]:*:[svg]:text-on-tertiary",
         ],
         destructive:
-          "ripple-on-error-container text-on-error-container hover:*:[svg]:text-error",
+          "state-layer-on-error-container text-on-error-container hover:*:[svg]:text-error",
       },
     },
     defaultVariants: {
@@ -194,7 +194,7 @@ function DropdownMenuItem({
       {...props}
     >
       <FocusRing />
-      <Ripple />
+      <StateLayer />
       {children}
     </MenuPrimitive.Item>
   )
@@ -221,7 +221,7 @@ function DropdownMenuLinkItem({
       {...props}
     >
       <FocusRing />
-      <Ripple />
+      <StateLayer />
       {children}
     </MenuPrimitive.LinkItem>
   )
@@ -252,7 +252,7 @@ function DropdownMenuSubTrigger({
       {...props}
     >
       <FocusRing />
-      <Ripple />
+      <StateLayer />
       {children}
       <ArrowRightIcon className="ms-auto size-[20px]" />
     </MenuPrimitive.SubmenuTrigger>
@@ -304,7 +304,7 @@ function DropdownMenuCheckboxItem({
       {...props}
     >
       <FocusRing />
-      <Ripple />
+      <StateLayer />
       <MenuPrimitive.CheckboxItemIndicator data-slot="dropdown-menu-checkbox-item-indicator">
         <CheckIcon className="size-[20px]" />
       </MenuPrimitive.CheckboxItemIndicator>
@@ -340,7 +340,7 @@ function DropdownMenuRadioItem({
       {...props}
     >
       <FocusRing />
-      <Ripple />
+      <StateLayer />
       <MenuPrimitive.RadioItemIndicator data-slot="dropdown-menu-radio-item-indicator">
         <CheckIcon className="size-[20px]" />
       </MenuPrimitive.RadioItemIndicator>

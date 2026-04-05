@@ -60,21 +60,21 @@ const WAITING_FOR_CLICK = "WAITING_FOR_CLICK"
  */
 const TOUCH_DELAY_MS = 150
 
-function isTouch({ pointerType }: RipplePointerEvent) {
+function isTouch({ pointerType }: StateLayerPointerEvent) {
   return pointerType === "touch"
 }
 
-type RipplePointerEvent = React.PointerEvent<HTMLSpanElement> & PointerEvent
-export type RippleProps = React.ComponentProps<"span"> & {
+type StateLayerPointerEvent = React.PointerEvent<HTMLSpanElement> & PointerEvent
+export type StateLayerProps = React.ComponentProps<"span"> & {
   disabled?: boolean
   plain?: boolean
 }
 
-export function Ripple({
+export function StateLayer({
   className,
   disabled = false,
   plain = false,
-}: RippleProps) {
+}: StateLayerProps) {
   if (disabled) return null
 
   const rippleSize = useRef("")
@@ -82,17 +82,17 @@ export function Ripple({
   const initialSize = useRef(0)
   const growAnimation = useRef<Animation>(null)
   const state = useRef(INACTIVE)
-  const rippleStartEvent = useRef<RipplePointerEvent>(null)
+  const rippleStartEvent = useRef<StateLayerPointerEvent>(null)
   const checkBoundsAfterContextMenu = useRef(false)
   const ref = useRef<HTMLSpanElement>(null)
 
-  function handlePointerEnter(event: RipplePointerEvent) {
+  function handlePointerEnter(event: StateLayerPointerEvent) {
     if (!shouldReactToEvent(event)) {
       return
     } // hovered = true;
   }
 
-  function handlePointerLeave(event: RipplePointerEvent) {
+  function handlePointerLeave(event: StateLayerPointerEvent) {
     if (!shouldReactToEvent(event)) {
       return
     } //hovered = false;
@@ -103,7 +103,7 @@ export function Ripple({
     }
   }
 
-  function handlePointerUp(event: RipplePointerEvent) {
+  function handlePointerUp(event: StateLayerPointerEvent) {
     if (!shouldReactToEvent(event)) {
       return
     }
@@ -120,7 +120,7 @@ export function Ripple({
     }
   }
 
-  async function handlePointerDown(event: RipplePointerEvent) {
+  async function handlePointerDown(event: StateLayerPointerEvent) {
     if (!shouldReactToEvent(event)) {
       return
     }
@@ -172,7 +172,7 @@ export function Ripple({
     }
   }
 
-  function handlePointerCancel(event: RipplePointerEvent) {
+  function handlePointerCancel(event: StateLayerPointerEvent) {
     if (!shouldReactToEvent(event)) {
       return
     }
@@ -189,7 +189,7 @@ export function Ripple({
     endPressAnimation()
   }
 
-  function determineRippleSize() {
+  function determineStateLayerSize() {
     const { height, width } = ref.current?.getBoundingClientRect() || {
       height: 0,
       width: 0,
@@ -209,7 +209,9 @@ export function Ripple({
     rippleSize.current = `${_initialSize}px`
   }
 
-  function getNormalizedPointerEventCoords(pointerEvent: RipplePointerEvent): {
+  function getNormalizedPointerEventCoords(
+    pointerEvent: StateLayerPointerEvent
+  ): {
     x: number
     y: number
   } {
@@ -224,7 +226,7 @@ export function Ripple({
     return { x: pageX - documentX, y: pageY - documentY }
   }
 
-  function getTranslationCoordinates(positionEvent?: RipplePointerEvent) {
+  function getTranslationCoordinates(positionEvent?: StateLayerPointerEvent) {
     const { height, width } = ref.current?.getBoundingClientRect() || {
       height: 0,
       width: 0,
@@ -252,13 +254,13 @@ export function Ripple({
     return { startPoint, endPoint }
   }
 
-  function startPressAnimation(positionEvent?: RipplePointerEvent) {
+  function startPressAnimation(positionEvent?: StateLayerPointerEvent) {
     if (!ref.current || !positionEvent) {
       return
     } // pressed = true;
 
     growAnimation.current?.cancel()
-    determineRippleSize()
+    determineStateLayerSize()
     const { startPoint, endPoint } = getTranslationCoordinates(positionEvent)
     const translateStart = `${startPoint.x}px, ${startPoint.y}px`
     const translateEnd = `${endPoint.x}px, ${endPoint.y}px`
@@ -310,7 +312,7 @@ export function Ripple({
     } // pressed = false;
   }
 
-  function shouldReactToEvent(event: RipplePointerEvent) {
+  function shouldReactToEvent(event: StateLayerPointerEvent) {
     if (disabled || !event.isPrimary) {
       return false
     }
@@ -336,7 +338,7 @@ export function Ripple({
    * This is only needed for the "stuck" contextmenu longpress on Chrome.
    */
 
-  function inBounds({ x, y }: RipplePointerEvent) {
+  function inBounds({ x, y }: StateLayerPointerEvent) {
     const { top, left, bottom, right } =
       ref.current?.getBoundingClientRect() || {
         top: 0,
@@ -362,7 +364,7 @@ export function Ripple({
   return (
     <span
       ref={ref}
-      data-slot="ripple"
+      data-slot="state-layer"
       className={cn(
         "absolute inset-0 overflow-hidden rounded-[inherit]",
         "before:absolute before:inset-0 before:rounded-[inherit] before:opacity-0 before:content-['']",
@@ -370,7 +372,7 @@ export function Ripple({
         "after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:content-['']",
         "after:transition-[opacity,background-color]",
         !plain && [
-          "after:bg-[radial-gradient(closest-side,var(--rm-ripple-color)_max(calc(100%-70px),65%),transparent_100%)]",
+          "after:bg-[radial-gradient(closest-side,var(--rm-state-layer-color)_max(calc(100%-70px),65%),transparent_100%)]",
           "after:origin-[center_center] after:transition-[opacity_375ms_linear]",
         ],
         className

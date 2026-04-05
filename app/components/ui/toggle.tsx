@@ -16,34 +16,34 @@ const toggle = cva(
       variant: {
         // original
         default: [
-          "not-data-pressed:ripple-on-surface-variant not-data-pressed:bg-surface-container not-data-pressed:text-on-surface-variant",
-          "data-pressed:ripple-on-primary data-pressed:bg-primary data-pressed:text-on-primary",
+          "not-data-pressed:state-layer-on-surface-variant not-data-pressed:bg-surface-container not-data-pressed:text-on-surface-variant",
+          "data-pressed:state-layer-on-primary data-pressed:bg-primary data-pressed:text-on-primary",
         ],
         secondary:
-          "data-pressed:ripple-on-secondary data-pressed:bg-secondary data-pressed:text-on-secondary",
+          "data-pressed:state-layer-on-secondary data-pressed:bg-secondary data-pressed:text-on-secondary",
         outline:
-          "data-pressed:ripple-inverse-on-surface data-pressed:bg-inverse-surface data-pressed:text-inverse-on-surface data-pressed:*:data-[slot=outline]:border-none",
+          "data-pressed:state-layer-inverse-on-surface data-pressed:bg-inverse-surface data-pressed:text-inverse-on-surface data-pressed:*:data-[slot=outline]:border-none",
         ghost: [
-          "not-data-pressed:ripple-on-surface-variant not-data-pressed:bg-[initial] not-data-pressed:text-on-surface-variant",
-          "data-pressed:ripple-primary data-pressed:bg-[initial] data-pressed:text-primary",
+          "not-data-pressed:state-layer-on-surface-variant not-data-pressed:bg-[initial] not-data-pressed:text-on-surface-variant",
+          "data-pressed:state-layer-primary data-pressed:bg-[initial] data-pressed:text-primary",
         ],
         destructive:
-          "data-pressed:ripple-on-error data-pressed:bg-error data-pressed:text-on-error",
+          "data-pressed:state-layer-on-error data-pressed:bg-error data-pressed:text-on-error",
         link: "text-primary underline-offset-4 hover:underline",
         // material
         elevated:
-          "data-pressed:ripple-on-primary data-pressed:bg-primary data-pressed:text-on-primary",
+          "data-pressed:state-layer-on-primary data-pressed:bg-primary data-pressed:text-on-primary",
         filled: [
-          "not-data-pressed:ripple-on-surface-variant not-data-pressed:bg-surface-container not-data-pressed:text-on-surface-variant",
-          "data-pressed:ripple-on-primary data-pressed:bg-primary data-pressed:text-on-primary",
+          "not-data-pressed:state-layer-on-surface-variant not-data-pressed:bg-surface-container not-data-pressed:text-on-surface-variant",
+          "data-pressed:state-layer-on-primary data-pressed:bg-primary data-pressed:text-on-primary",
         ],
         tonal:
-          "data-pressed:ripple-on-secondary data-pressed:bg-secondary data-pressed:text-on-secondary",
+          "data-pressed:state-layer-on-secondary data-pressed:bg-secondary data-pressed:text-on-secondary",
         outlined:
-          "data-pressed:ripple-inverse-on-surface data-pressed:bg-inverse-surface data-pressed:text-inverse-on-surface data-pressed:*:data-[slot=outline]:border-none",
+          "data-pressed:state-layer-inverse-on-surface data-pressed:bg-inverse-surface data-pressed:text-inverse-on-surface data-pressed:*:data-[slot=outline]:border-none",
         standard: [
-          "not-data-pressed:ripple-on-surface-variant not-data-pressed:bg-[initial] not-data-pressed:text-on-surface-variant",
-          "data-pressed:ripple-primary data-pressed:bg-[initial] data-pressed:text-primary",
+          "not-data-pressed:state-layer-on-surface-variant not-data-pressed:bg-[initial] not-data-pressed:text-on-surface-variant",
+          "data-pressed:state-layer-primary data-pressed:bg-[initial] data-pressed:text-primary",
         ],
       },
       size: {

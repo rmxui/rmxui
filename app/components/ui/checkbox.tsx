@@ -3,7 +3,7 @@ import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox"
 import { CheckboxGroup as CheckboxGroupPrimitive } from "@base-ui/react/checkbox-group"
 
 import { FocusRing } from "~/components/ui/focus-ring"
-import { Ripple } from "~/components/ui/ripple"
+import { StateLayer } from "~/components/ui/state-layer"
 import { cn } from "~/lib/utils"
 
 type CheckboxProps = CheckboxPrimitive.Root.Props
@@ -14,13 +14,13 @@ function Checkbox({ className, ...props }: CheckboxProps) {
       data-slot="checkbox"
       className={cn(
         "group/root relative flex size-[40px] items-center justify-center rounded-full border-none outline-none",
-        "not-data-unchecked:ripple-primary focus-visible:*:data-[slot=focus-ring]:outline-solid data-unchecked:ripple-on-surface data-disabled:pointer-events-none",
+        "not-data-unchecked:state-layer-primary data-unchecked:state-layer-on-surface focus-visible:*:data-[slot=focus-ring]:outline-solid data-disabled:pointer-events-none",
         className
       )}
       {...props}
     >
       <FocusRing />
-      <Ripple />
+      <StateLayer />
       <CheckboxIndicator />
     </CheckboxPrimitive.Root>
   )

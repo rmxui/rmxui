@@ -8,7 +8,7 @@ import { useButtonGroup } from "~/components/ui/button-group"
 import { Elevation } from "~/components/ui/elevation"
 import { FocusRing } from "~/components/ui/focus-ring"
 import { Outline } from "~/components/ui/outline"
-import { Ripple } from "~/components/ui/ripple"
+import { StateLayer } from "~/components/ui/state-layer"
 import { cn, getCssDimensions } from "~/lib/utils"
 
 const button = cva(
@@ -21,24 +21,24 @@ const button = cva(
     variants: {
       variant: {
         // original
-        default: "ripple-on-primary bg-primary text-on-primary",
+        default: "state-layer-on-primary bg-primary text-on-primary",
         secondary:
-          "ripple-on-secondary-container bg-secondary-container text-on-secondary-container",
+          "state-layer-on-secondary-container bg-secondary-container text-on-secondary-container",
         outline:
-          "ripple-on-surface-variant bg-[initial] text-on-surface-variant *:data-[slot=outline]:border-solid",
-        ghost: "ripple-primary bg-[initial] text-primary",
+          "state-layer-on-surface-variant bg-[initial] text-on-surface-variant *:data-[slot=outline]:border-solid",
+        ghost: "state-layer-primary bg-[initial] text-primary",
         destructive:
-          "ripple-on-error-container bg-error-container text-on-error-container",
+          "state-layer-on-error-container bg-error-container text-on-error-container",
         link: "text-primary underline-offset-4 hover:underline",
         // material
         elevated:
-          "ripple-primary bg-surface-container-low text-primary elevation-1 data-disabled:elevation-0",
-        filled: "ripple-on-primary bg-primary text-on-primary",
+          "state-layer-primary bg-surface-container-low text-primary elevation-1 data-disabled:elevation-0",
+        filled: "state-layer-on-primary bg-primary text-on-primary",
         tonal:
-          "ripple-on-secondary-container bg-secondary-container text-on-secondary-container",
+          "state-layer-on-secondary-container bg-secondary-container text-on-secondary-container",
         outlined:
-          "ripple-on-surface-variant bg-[initial] text-on-surface-variant *:data-[slot=outline]:border-solid",
-        standard: "ripple-primary bg-[initial] text-primary",
+          "state-layer-on-surface-variant bg-[initial] text-on-surface-variant *:data-[slot=outline]:border-solid",
+        standard: "state-layer-primary bg-[initial] text-primary",
       },
       size: {
         // original
@@ -200,7 +200,7 @@ function Button({
       <FocusRing />
       {variant === "elevated" && <Elevation />}
       {(variant === "outlined" || variant === "outline") && <Outline />}
-      <Ripple />
+      <StateLayer />
       {children}
     </ButtonPrimitive>
   )

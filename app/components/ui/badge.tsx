@@ -7,7 +7,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { Elevation } from "~/components/ui/elevation"
 import { Outline } from "~/components/ui/outline"
-import { Ripple } from "~/components/ui/ripple"
+import { StateLayer } from "~/components/ui/state-layer"
 import { cn } from "~/lib/utils"
 
 const badgeVariants = cva(
@@ -71,7 +71,7 @@ function Badge({
           <>
             {variant === "elevated" && <Elevation />}
             {(variant === "outlined" || variant === "outline") && <Outline />}
-            <Ripple />
+            <StateLayer />
             {children}
           </>
         ),
