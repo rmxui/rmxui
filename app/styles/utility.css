@@ -37,7 +37,8 @@
 
   &:focus-visible {
     :is(& > *),
-    :is(& > [data-slot$="indicator"] > *) {
+    :is(& > [data-slot$="indicator"] > *),
+    :is(& > * > [data-slot$="indicator"] > *) {
       &[data-slot="state-layer"] {
         &::before {
           background-color: --value(--color-*);
@@ -50,7 +51,8 @@
   &:hover {
     @media (hover: hover) {
       :is(& > *),
-      :is(& > [data-slot$="indicator"] > *) {
+      :is(& > [data-slot$="indicator"] > *),
+      :is(& > * > [data-slot$="indicator"] > *) {
         &[data-slot="state-layer"] {
           &::before {
             background-color: --value(--color- *);
@@ -63,7 +65,8 @@
 
   &:active {
     :is(& > *),
-    :is(& > [data-slot$="indicator"] > *) {
+    :is(& > [data-slot$="indicator"] > *),
+    :is(& > * > [data-slot$="indicator"] > *) {
       &[data-slot="state-layer"] {
         &::after {
           background-color: --value(--color-*);

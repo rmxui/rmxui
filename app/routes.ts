@@ -15,6 +15,7 @@ export const routes = [
   "dropdown-menu",
   "item",
   "radio",
+  "sidebar",
   "toggle",
   "toggle-group",
 ]

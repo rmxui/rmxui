@@ -198,7 +198,7 @@ function Button({
       {...props}
     >
       <FocusRing />
-      {variant === "elevated" && <Elevation />}
+      <Elevation />
       {(variant === "outlined" || variant === "outline") && <Outline />}
       <StateLayer />
       {children}
