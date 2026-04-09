@@ -68,12 +68,14 @@ type StateLayerPointerEvent = React.PointerEvent<HTMLSpanElement> & PointerEvent
 export type StateLayerProps = React.ComponentProps<"span"> & {
   disabled?: boolean
   plain?: boolean
+  ripple?: boolean
 }
 
 export function StateLayer({
   className,
   disabled = false,
   plain = false,
+  ripple = true,
 }: StateLayerProps) {
   if (disabled) return null
 
@@ -349,9 +351,20 @@ export function StateLayer({
     return x >= left && x <= right && y >= top && y <= bottom
   }
 
-  const props = plain
-    ? {}
-    : {
+  // const props = plain
+  //   ? {}
+  //   : {
+  //       onClick: handleClick,
+  //       onContextMenu: handleContextMenu,
+  //       onPointerCancel: handlePointerCancel,
+  //       onPointerDown: handlePointerDown,
+  //       onPointerEnter: handlePointerEnter,
+  //       onPointerLeave: handlePointerLeave,
+  //       onPointerUp: handlePointerUp,
+  //     }
+
+  const props = ripple
+    ? {
         onClick: handleClick,
         onContextMenu: handleContextMenu,
         onPointerCancel: handlePointerCancel,
@@ -360,6 +373,7 @@ export function StateLayer({
         onPointerLeave: handlePointerLeave,
         onPointerUp: handlePointerUp,
       }
+    : {}
 
   return (
     <span
@@ -371,7 +385,7 @@ export function StateLayer({
         "before:transition-[opacity,background-color] before:duration-[15ms,15ms] before:ease-linear",
         "after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:content-['']",
         "after:transition-[opacity,background-color]",
-        !plain && [
+        ripple && [
           "after:bg-[radial-gradient(closest-side,var(--rm-state-layer-color)_max(calc(100%-70px),65%),transparent_100%)]",
           "after:origin-[center_center] after:transition-[opacity_375ms_linear]",
         ],

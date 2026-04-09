@@ -13,6 +13,7 @@ export const routes = [
   "checkbox",
   "dialog",
   "dropdown-menu",
+  "input-group",
   "item",
   "radio",
   "sidebar",

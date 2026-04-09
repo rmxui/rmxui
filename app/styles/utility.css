@@ -1,4 +1,5 @@
 @utility state-layer-* {
+  --rm-state-layer-color: --value(--color-*);
   label:focus-visible & {
     :is(&:not([data-disabled]) > *) {
       &[data-slot="state-layer"] {
