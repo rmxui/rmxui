@@ -1,48 +1,88 @@
+import { Link, useLocation } from "react-router"
+
 import { Button } from "~/components/ui/button"
 import {
   Sidebar,
+  SidebarContainer,
   SidebarContent,
   SidebarGroup,
   SidebarHeader,
   SidebarHeaderAction,
   SidebarHeaderTrigger,
   SidebarMenu,
+  SidebarMenuButton,
   SidebarMenuItem,
-  SidebarPanel,
   SidebarTrigger,
 } from "~/components/ui/sidebar"
 
 const types = ["items", "menu", "fab", "menu-fab"] as const
 
 export default function SidebarRoute() {
+  const location = useLocation()
   return (
     <div className="flex flex-wrap gap-4">
-      {["standard", "modal"].map((variant) =>
+      {["default", "icon", "offcanvas"].map((variant) =>
         types.map((type) => (
-          <Sidebar variant={variant as any} key={variant + type}>
-            {variant === "modal" && (
+          <Sidebar
+            collapsible={variant as any}
+            key={variant + type}
+            // open={variant === "modal" && type === "items" ? true : undefined}
+          >
+            {variant === "offcanvas" && (
               <SidebarTrigger render={<Button />}>Open {type}</SidebarTrigger>
             )}
-            <SidebarPanel>
+            <SidebarContainer>
+              {(type.startsWith("menu") || type.endsWith("fab")) && (
+                <SidebarHeader>
+                  {type.startsWith("menu") && <SidebarHeaderTrigger />}
+                  {type.endsWith("fab") && (
+                    <SidebarHeaderAction
+                      icon={PencilIcon}
+                      label="Edit"
+                      render={<Button variant="elevated" />}
+                    />
+                  )}
+                </SidebarHeader>
+              )}
               <SidebarContent>
-                {(type.startsWith("menu") || type.endsWith("fab")) && (
-                  <SidebarHeader>
-                    {type.startsWith("menu") && <SidebarHeaderTrigger />}
-                    {type.endsWith("fab") && (
-                      <SidebarHeaderAction icon={PencilIcon} label="Edit" />
-                    )}
-                  </SidebarHeader>
-                )}
                 <SidebarGroup>
                   <SidebarMenu>
-                    <SidebarMenuItem icon={StarsIcon} label="Label" />
-                    <SidebarMenuItem icon={StarsIcon} label="Label" isActive />
-                    <SidebarMenuItem icon={StarsIcon} label="Label" isActive />
-                    <SidebarMenuItem icon={StarsIcon} label="Label" />
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        icon={StarsIcon}
+                        label="Label"
+                        render={<Link to={"#1"} />}
+                        active={location.hash === "#1"}
+                      />
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        icon={StarsIcon}
+                        label="Label"
+                        render={<Link to={"#2"} />}
+                        active={location.hash === "#2"}
+                      />
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        icon={StarsIcon}
+                        label="Label"
+                        render={<Link to={"#3"} />}
+                        active={location.hash === "#3"}
+                      />
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        icon={StarsIcon}
+                        label="Label"
+                        render={<Link to={"#4"} />}
+                        active={location.hash === "#4"}
+                      />
+                    </SidebarMenuItem>
                   </SidebarMenu>
                 </SidebarGroup>
               </SidebarContent>
-            </SidebarPanel>
+            </SidebarContainer>
           </Sidebar>
         ))
       )}

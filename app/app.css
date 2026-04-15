@@ -5,6 +5,7 @@
 @import "@fontsource-variable/roboto";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant data-active (&:where(.active), &:where([data-state="active"]), &:where([data-active]:not([data-active="false"])));
 
 :root {
   --background: oklch(1 0 0);
